@@ -164,7 +164,7 @@ Adding `has_actionstore` to your ActiveRecord model (or anything else that can b
 
 #### Actions
 
-Any method on the object that starts with `perform_` can be potentially called from the frontend. The first argument is always the channel that received the action (useful for authentication), followed by the arguments passed from the frontend.
+Any method on the object that starts with `perform_` can potentially be called from the frontend. The first argument is always the channel that received the action (useful for authentication), followed by the arguments passed from the frontend.
 
 #### Callbacks
 
