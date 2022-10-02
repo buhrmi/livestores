@@ -4,6 +4,8 @@ ActionStore allows you to push data directly into Svelte stores from your Ruby o
 
 ## Installation
 
+### Backend
+
 Add this line to your application's Gemfile:
 
 ```ruby
@@ -14,6 +16,11 @@ And then execute:
 
     $ bundle install
 
+### Frontend
+
+Install the package:
+
+    $ yarn add @buhrmi/actionstore
 
 ## Usage
 
@@ -25,7 +32,7 @@ In a Svelte component:
 
 ```html
 <script>
-import {subscribe} from ‘actionstore’
+import {subscribe} from '@buhrmi/actionstore'
 
 // you need the signed global id of the record you want to subscribe to
 export let user_sgid
@@ -47,7 +54,7 @@ class User < ApplicationRecord
   include ActionStore
 
   def subscribed channel
-    push_update name: ‘Rich Harris’
+    push_update name: 'Rich Harris'
   end
 end
 ```
@@ -57,7 +64,7 @@ end
 You can also push data into stores specified by an id
 
 ```js
-import {subscribe,store} from ‘actionstore’
+import {subscribe,store} from '@buhrmi/actionstore'
 export let user_sgid
 const user = subscribe(user_sgid)
 
