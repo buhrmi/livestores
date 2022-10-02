@@ -51,7 +51,7 @@ Now you can populate the store from the backend:
 
 ```ruby
 class User < ApplicationRecord
-  include ActionStore
+  has_actionstore
 
   def subscribed channel
     push_update name: 'Rich Harris'
@@ -85,7 +85,7 @@ You can automatically sync record changes to the store.
 
 ```ruby
 class User < ApplicationRecord
-  include ActionStore
+  has_actionstore
   
   # this will only push changed attributes
   after_update_commit -> { push_update saved_changes.transform_values(&:last) }
@@ -130,11 +130,15 @@ ActionStore has just a couple of methods that cover a whole spectrum of stuff yo
 
 ### Frontend
 
+The `@buhrmi/actionstore` package exports the following functions:
+
 `subscribe(sgid, initial=null, storeId=sgid)` - Subscribe to the record with the specified global id
 
 `store(storeId, initial=null)` - Get the store with the specified id
 
 ### Backend
+
+Adding `has_actionstore` to your ActiveRecord model will create the following instance methods:
 
 `push_append` - Append data to an array in the default store
 
