@@ -24,7 +24,7 @@ Install the package:
 
 ## Usage
 
-Below are some example usage scenarios. For more details, see the [API documentation](https://www.rubydoc.info/gems/actionstore).
+Below are some example usage scenarios. For more details, see the [API section](#API).
 
 ### Subscribe to a database record
 
