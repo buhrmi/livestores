@@ -140,7 +140,7 @@ The `@buhrmi/actionstore` package exports the following functions:
 
 ### Backend
 
-Adding `has_actionstore` to your ActiveRecord model will create the following instance methods:
+Adding `has_actionstore` to your ActiveRecord model (or anything else that can be located via [Global ID](https://github.com/rails/globalid)) will create the following instance methods:
 
 `push_append(data)` - Append data to an array in the default store
 
