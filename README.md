@@ -4,7 +4,7 @@ ActionStore allows you to push data directly into Svelte stores from your Ruby o
 
 ## Installation
 
-### Backend
+### Ruby gem
 
 Add this line to your application's Gemfile:
 
@@ -16,7 +16,7 @@ And then execute:
 
     $ bundle install
 
-### Frontend
+### Npm package
 
 Install the package:
 
