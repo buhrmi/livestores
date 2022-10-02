@@ -130,17 +130,25 @@ user.push_event 'show_alert', 'Boo!'
 
 ActionStore has just a couple of methods that cover a whole spectrum of stuff you can do.
 
-### Frontend
+### Javascript
 
 The `@buhrmi/actionstore` package exports the following functions:
 
-`subscribe(sgid, initial=null, storeId=sgid)` - Subscribe to the record with the specified global id
+`const someStore = subscribe(sgid, initial=null, storeId=sgid)` - Subscribe to the record with the specified global id
 
-`store(storeId, initial=null)` - Get the store with the specified id
+`const someStore = store(storeId, initial=null)` - Get the store with the specified id. These are special stores that are augmented with events and actions.
 
-### Backend
+#### Stores
 
-Adding `has_actionstore` to your ActiveRecord model (or anything else that can be located via [Global ID](https://github.com/rails/globalid)) will create the following instance methods:
+`someStore.on(event, handler)` - Sets up an event handler for server-sent events
+
+`someStore.perform(action, ...arguments)` - Will call the equivalent `perform_[action]` method on the subscribed model.
+
+### Ruby
+
+Adding `has_actionstore` to your ActiveRecord model (or anything else that can be located via [Global ID](https://github.com/rails/globalid)) will create the following instance methods and behavior
+
+#### Instance methods
 
 `push_append(data)` - Append data to an array in the default store
 
@@ -154,3 +162,10 @@ Adding `has_actionstore` to your ActiveRecord model (or anything else that can b
 
 `push_event_into(store_name, event_name, data)` - Trigger an event on a specified store
 
+#### Actions
+
+Any method defined on the object that starts with `perform_` can be potentially called from the frontend. The first argument is always the channel that received the action (useful for authentication), followed by the arguments passed from the frontend.
+
+#### Callbacks
+
+Whenever a subscription is created or destroyed, the `subscribed(channel)` or `unsubscribed(channel)` method is called on the subject (if defined).
