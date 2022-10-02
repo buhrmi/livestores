@@ -1,6 +1,6 @@
 # ActionStore
 
-ActionStore allows you to push data directly into Svelte stores from your Ruby on Rails backend. Here's an [introductory post](https://dev.to/buhrmi/actionstore-real-time-svelte-stores-for-rails-4jhg).
+ActionStore allows you to push data directly into Svelte stores from your Ruby on Rails backend. Here's an [introductory blog post](https://dev.to/buhrmi/actionstore-real-time-svelte-stores-for-rails-4jhg).
 
 ## Installation
 
