@@ -134,7 +134,7 @@ ActionStore has just a couple of methods that cover a whole spectrum of stuff yo
 
 The `@buhrmi/actionstore` package exports the following functions:
 
-`const someStore = subscribe(sgid, initial=null, storeId=sgid)` - Subscribe to the record with the specified global id
+`const someStore = subscribe(sgid, initial=null, storeId=sgid)` - Subscribe to the record with the specified global id. You can optionally pass a storeId. If a new subscription with the same storeId is created, the old subscription will be cancelled and removed.
 
 `const someStore = store(storeId, initial=null)` - Get the store with the specified id. These are special stores that are augmented with events and actions.
 
