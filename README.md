@@ -140,15 +140,15 @@ The `@buhrmi/actionstore` package exports the following functions:
 
 Adding `has_actionstore` to your ActiveRecord model will create the following instance methods:
 
-`push_append` - Append data to an array in the default store
+`push_append(data)` - Append data to an array in the default store
 
-`push_update` - Updats fields of an object in the default store
+`push_update(data)` - Updats fields of an object in the default store
 
-`push_append_into` - Append data to an array in a specified store
+`push_append_into(store_name, data)` - Append data to an array in a specified store
 
-`push_update_into` - Update fields of an object in a specified store
+`push_update_into(store_name, data)` - Update fields of an object in a specified store
 
-`push_event` - Trigger an event on the default store
+`push_event(event_name, data)` - Trigger an event on the default store
 
-`push_event_into` - Trigger an event on a specified store
+`push_event_into(store_name, event_name, data)` - Trigger an event on a specified store
 
