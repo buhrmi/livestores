@@ -128,7 +128,7 @@ user.push_event 'show_alert', 'Boo!'
 
 ## API
 
-ActionStore has just a couple of methods that cover a whole spectrum of stuff you can do.
+ActionStore consists of two parts, the frontend (Javascript) part and the backend (Ruby) part. Find details below.
 
 ### Javascript
 
