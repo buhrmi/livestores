@@ -134,11 +134,13 @@ ActionStore consists of two parts, the frontend (Javascript) part and the backen
 
 The `@buhrmi/actionstore` package exports the following functions:
 
-`const someStore = subscribe(sgid, initial=null, storeId=sgid)` - Subscribe to the record with the specified global id. You can optionally pass a storeId. If a new subscription with the same storeId is created, the old subscription will be cancelled and removed.
+`const someStore = subscribe(sgid, initial=null, storeId=sgid)` - Sets up a new subscription to the record with the specified global id. You can optionally pass a storeId. If a new subscription with the same storeId is created, the old subscription will be cancelled and removed.
 
-`const someStore = store(storeId, initial=null)` - Get the store with the specified id. These are special stores that are augmented with events and actions.
+`const someStore = store(storeId, initial=null)` - Gets the store with the specified id.
 
 #### Stores
+
+ActionStores are Svelte stores augmented with the following functions:
 
 `someStore.on(event, handler)` - Sets up an event handler for server-sent events
 
