@@ -26,7 +26,7 @@ Install the package:
 
 ## Usage
 
-Below are some example usages. For more condensed details, see the [API section](#API).
+Below are some usage examples. For more condensed details, see the [API section](#API).
 
 ### Subscribe to a database record
 
