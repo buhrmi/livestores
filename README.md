@@ -150,19 +150,25 @@ ActionStores are Svelte stores augmented with the following functions:
 
 Adding `has_actionstore` to your ActiveRecord model (or anything else that can be located via [Global ID](https://github.com/rails/globalid)) will create the following instance methods and behavior
 
-#### Instance methods
+#### Pushing Data
 
-`push_append(data)` - Append data to an array in the default store
+`record.push_append(data)` - Append data to an array in the default store
 
-`push_update(data)` - Updats fields of an object in the default store
+`record.push_update(changes)` - Updats fields of an object in the default store
 
-`push_append_into(store_name, data)` - Append data to an array in a specified store
+`record.push_update_by(key, value, changes)` - Updates fields of an object in the default store, identified by the specified key and value
 
-`push_update_into(store_name, data)` - Update fields of an object in a specified store
+`record.push_append_into(store_name, data)` - Append data to an array in a specified store
 
-`push_event(event_name, data)` - Trigger an event on the default store
+`record.push_update_into(store_name, changes)` - Update fields of an object in a specified store
 
-`push_event_into(store_name, event_name, data)` - Trigger an event on a specified store
+`record.push_update_by_into(store_name, key, value, changes)` - Update fields of an object in a specified store, identified by the specified key and value
+
+#### Triggering events
+
+`record.push_event(event_name, data)` - Trigger an event on the default store
+
+`record.push_event_into(store_name, event_name, data)` - Trigger an event on a specified store
 
 #### Actions
 

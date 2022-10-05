@@ -24,6 +24,22 @@ function writableWithEvents(initialData) {
       return Object.assign($data || {}, data.changes)
     })
   })
+  store.on('append', function(data) {
+    store.update(function($data) {
+      return ($data || []).concat(data.value)
+    })
+  })
+  store.on('update_by', function(data) {
+    store.update(function($data) {
+      return ($data || []).map(function(item) {
+        if (item[data.key] == data.value) {
+          return Object.assign(item, data.changes)
+        } else {
+          return item
+        }
+      })
+    })
+  })
   return store
 }
 

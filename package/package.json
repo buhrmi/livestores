@@ -1,6 +1,6 @@
 {
   "name": "@buhrmi/actionstore",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Push data from your Rails backend directly into Svelte stores",
   "main": "index.js",
   "scripts": {
