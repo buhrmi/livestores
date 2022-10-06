@@ -2,7 +2,7 @@ version: 2.1
 orbs:
   browser-tools: circleci/browser-tools@1.4.0
 jobs:
-  build:
+  test:
     working_directory: ~/actionstore/dummy
     docker:
       - image: cimg/ruby:3.1.2-browsers
@@ -16,24 +16,20 @@ jobs:
           path: ~/actionstore
 
       # Restore Cached Dependencies
-      - type: cache-restore
-        name: Restore bundle cache
-        key: cv-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          keys:
+            - bundler-{{ checksum "Gemfile.lock" }}
+            - npm-{{ checksum "package-lock.json" }}
 
 
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
       
       # Cache Dependencies
-      - type: cache-save
-        name: Store bundle cache
-        key: cv-{{ checksum "Gemfile.lock" }}
-        paths:
-          - vendor/bundle
-
-      - type: cache-restore
-        name: Restore npm cache
-        key: cv-{{ checksum "package-lock.json" }}
+      - save_cache:
+          paths:
+            - vendor/bundle
+           key: bundler-{{ checksum "Gemfile.lock" }}
 
       - run: npm install
 
@@ -41,14 +37,11 @@ jobs:
       - run: npm install --save @rails/actioncable
 
         # Cache Dependencies
-      - type: cache-save
-        name: Store npm cache
-        key: cv-{{ checksum "package-lock.json" }}
-        paths:
-          - ~/.cache/npm
-
-      # Setup the environment
-      #- run: cp .sample.env .env
+      - save_cache:
+          paths:
+            - ~/.cache/npm
+          key: npm-{{ checksum "package-lock.json" }}
+        
 
       # Setup the database
       - run: bundle exec rake db:setup
