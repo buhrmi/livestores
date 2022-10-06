@@ -10,11 +10,12 @@ jobs:
           RAILS_ENV: test
 
     steps:
-      - browser-tools/install-chrome
-      - browser-tools/install-chromedriver
       - checkout:
           path: ~/actionstore
-
+          
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+      
       # Restore Cached Dependencies
       - restore_cache:
           keys:
