@@ -1,13 +1,17 @@
-version: 2
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.4.0
 jobs:
   build:
     working_directory: ~/actionstore/dummy
     docker:
-      - image: circleci/ruby:3.0.2-node-browsers
+      - image: cimg/ruby:3.1.2-browsers
         environment:
           RAILS_ENV: test
 
     steps:
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - checkout:
           path: ~/actionstore
 
@@ -31,7 +35,7 @@ jobs:
         name: Restore npm cache
         key: cv-{{ checksum "package-lock.json" }}
 
-      - run: npm install --immutable
+      - run: npm install
 
       # Install peer dependency (this is automatic in NPM 7, but circleci doesnt do it)
       - run: npm install --save @rails/actioncable
