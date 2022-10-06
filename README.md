@@ -1,5 +1,7 @@
 # ActionStore
 
+[![CircleCI](https://circleci.com/gh/buhrmi/actionstore.svg?style=shield)](https://circleci.com/gh/buhrmi/actionstore)
+
 ActionStore allows you to push data directly into Svelte stores via ActionCable. Here's an [introductory blog post](https://dev.to/buhrmi/actionstore-real-time-svelte-stores-for-rails-4jhg).
 
 > Note: There's currently no way to configure the Websocket URL. At the moment it only works in the browser, with the default Rails configuration, on the same origin.
