@@ -12,7 +12,7 @@ jobs:
     steps:
       - checkout:
           path: ~/actionstore
-          
+
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
       
@@ -34,8 +34,8 @@ jobs:
 
       - run: npm install
 
-      # Install peer dependency (this is automatic in NPM 7, but circleci doesnt do it)
-      - run: npm install --save @rails/actioncable
+      # Install actionstore dependencies
+      - run: (cd ../package && npm install)
 
         # Cache Dependencies
       - save_cache:

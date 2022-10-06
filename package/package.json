@@ -22,7 +22,7 @@
     "url": "https://github.com/buhrmi/actionstore/issues"
   },
   "homepage": "https://github.com/buhrmi/actionstore#readme",
-  "peerDependencies": {
+  "dependencies": {
     "@rails/actioncable": "^7.0.0"
   }
 }

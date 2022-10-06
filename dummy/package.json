@@ -1,6 +1,5 @@
 {
   "devDependencies": {
-    "@rails/actioncable": "^7.0.4",
     "@buhrmi/actionstore": "file:../package",
     "@inertiajs/inertia": "^0.11.1",
     "@inertiajs/inertia-svelte": "^0.8.0",
