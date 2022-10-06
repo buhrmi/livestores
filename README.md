@@ -1,6 +1,8 @@
 # ActionStore
 
 [![CircleCI](https://circleci.com/gh/buhrmi/actionstore.svg?style=shield)](https://circleci.com/gh/buhrmi/actionstore)
+[![Gem Version](https://badge.fury.io/rb/actionstore.svg)](https://rubygems.org/gems/actionstore)
+[![npm version](https://badge.fury.io/js/@buhrmi%2Factionstore.svg)](https://www.npmjs.com/package/@buhrmi/actionstore)
 
 ActionStore allows you to push data directly into Svelte stores via ActionCable. Here's an [introductory blog post](https://dev.to/buhrmi/actionstore-real-time-svelte-stores-for-rails-4jhg).
 
