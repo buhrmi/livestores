@@ -1,7 +1,7 @@
 version: 2
 jobs:
   build:
-    working_directory: ~/dummy
+    working_directory: ~/actionstore/dummy
     docker:
       - image: circleci/ruby:3.0.2-node-browsers
         environment:
@@ -13,11 +13,11 @@ jobs:
       - image: postgres:9.5
         environment:
           POSTGRES_USER: postgres
-          POSTGRES_DB: dummy_test
+          POSTGRES_DB: actionstore_test
           POSTGRES_PASSWORD: postgres
     steps:
       - checkout:
-          path: ~/dummy
+          path: ~/actionstore
 
       # Restore Cached Dependencies
       - type: cache-restore
