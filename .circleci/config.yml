@@ -2,6 +2,10 @@ version: 2
 jobs:
   build:
     working_directory: ~/actionstore/dummy
+    docker:
+      - image: circleci/ruby:3.0.2-node-browsers
+        environment:
+          RAILS_ENV: test
 
     steps:
       - checkout:
@@ -11,6 +15,7 @@ jobs:
       - type: cache-restore
         name: Restore bundle cache
         key: cv-{{ checksum "Gemfile.lock" }}
+
 
       # Bundle install dependencies
       - run: bundle install --path vendor/bundle
