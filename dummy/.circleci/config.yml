@@ -1,0 +1,64 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/dummy
+    docker:
+      - image: circleci/ruby:3.0.2-node-browsers
+        environment:
+          PGHOST: localhost
+          PGUSER: postgres
+          PGPASSWORD: postgres
+          RAILS_ENV: test
+          HOST: ''
+      - image: postgres:9.5
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_DB: dummy_test
+          POSTGRES_PASSWORD: postgres
+    steps:
+      - checkout:
+          path: ~/dummy
+
+      # Restore Cached Dependencies
+      - type: cache-restore
+        name: Restore bundle cache
+        key: cv-{{ checksum "Gemfile.lock" }}
+
+
+      # Bundle install dependencies
+      - run: bundle install --path vendor/bundle
+      
+      # Cache Dependencies
+      - type: cache-save
+        name: Store bundle cache
+        key: cv-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      - type: cache-restore
+        name: Restore npm cache
+        key: cv-{{ checksum "package-lock.json" }}
+
+      - run: npm install --immutable
+
+        # Cache Dependencies
+      - type: cache-save
+        name: Store npm cache
+        key: cv-{{ checksum "package-lock.json" }}
+        paths:
+          - ~/.cache/npm
+
+      # Wait for DB
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      # Setup the environment
+      #- run: cp .sample.env .env
+
+      # Setup the database
+      - run: bundle exec rake db:setup
+
+      # Run the tests
+      - run: bundle exec rake test:system test
+
+      - store_test_results:
+          path: test/reports

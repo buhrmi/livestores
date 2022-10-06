@@ -32,6 +32,25 @@ module Actionstore
     def push_update_into store_id, changes = {}
       Actionstore::Channel.broadcast_to self, store_id: Actionstore.store_id(store_id), action: 'update', changes: changes
     end
+
+    def push_update_by key, value, changes
+      Actionstore::Channel.broadcast_to self, action: 'update_by', key: key, value: value, changes: changes
+    end
+
+    def push_update_by_into store_id, key, value, changes
+      store_id = Actionstore.store_id(store_id)
+      Actionstore::Channel.broadcast_to self, store_id: store_id, action: 'update_by', key: key, value: value, changes: changes
+    end
+
+    def push_append value
+      Actionstore::Channel.broadcast_to self, action: 'append', value: value
+    end
+
+    def push_append_into store_id, value
+      store_id = Actionstore.store_id(store_id)
+      Actionstore::Channel.broadcast_to self, store_id: store_id, action: 'append', value: value
+    end
+
   
     def push_event event, data = nil
       Actionstore::Channel.broadcast_to self, action: event, data: data
