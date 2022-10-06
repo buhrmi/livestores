@@ -1,8 +1,8 @@
 require "application_system_test_case"
 
-class SanityTest < ApplicationSystemTestCase
+class ActionstoreTest < ApplicationSystemTestCase
 
-  test 'can log in and out' do
+  test 'subscribing, updating, appending' do
     visit '/'
     assert_text 'henlo'
     click_on 'Make Message'
