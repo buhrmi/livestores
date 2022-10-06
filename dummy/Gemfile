@@ -55,6 +55,7 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem 'minitest-ci'
 end
 
 gem "inertia_rails", "~> 3.0"

@@ -117,6 +117,8 @@ GEM
     method_source (1.0.0)
     mini_mime (1.1.2)
     minitest (5.16.3)
+    minitest-ci (3.4.0)
+      minitest (>= 5.0.6)
     msgpack (1.6.0)
     net-imap (0.3.1)
       net-protocol
@@ -214,6 +216,7 @@ DEPENDENCIES
   debug
   inertia_rails (~> 3.0)
   jbuilder
+  minitest-ci
   puma (~> 5.0)
   rails (~> 7.0.4)
   selenium-webdriver
