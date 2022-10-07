@@ -47,8 +47,6 @@ jobs:
       # Setup the database
       - run: bundle exec rake db:setup
 
-      - run: bin/vite build --clear --mode=test
-
       # Run the tests
       - run: bundle exec rake test:system test
 
