@@ -110,10 +110,11 @@ class User < ApplicationRecord
     # do something...
   end
 end
+```
 
 ### Perform actions
 
-With ActionStore you can define actions directly on the model and call them from the frontend.
+You can define actions directly on the model and call them from the frontend.
 
 ```js
 const user = subscribe(user_sgid)
