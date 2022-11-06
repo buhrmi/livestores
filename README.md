@@ -99,19 +99,6 @@ class User < ApplicationRecord
  end
 ```
 
-### Authentication
-
-The `subscribed`, `unsubscribed`, and `perform_...` methods all receive the ActionCable channel as the first argument. Use this  to check for authentication, eg:
-
-```ruby
-class User < ApplicationRecord
-  def perform_say_hello channel, name
-    return unless channel.current_user == self
-    # do something...
-  end
-end
-```
-
 ### Perform actions
 
 You can define actions directly on the model and call them from the frontend.
@@ -125,6 +112,19 @@ user.perform 'say_hello', 'thomas'
 class User < ApplicationRecord
   def perform_say_hello channel, name
     puts "Hello #{name}"
+  end
+end
+```
+
+### Authentication
+
+The `subscribed`, `unsubscribed`, and `perform_...` methods all receive the ActionCable channel as the first argument. Use this  to check for authentication, eg:
+
+```ruby
+class User < ApplicationRecord
+  def perform_say_hello channel, name
+    return unless channel.current_user == self
+    # do something...
   end
 end
 ```
