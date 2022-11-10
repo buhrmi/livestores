@@ -152,7 +152,7 @@ ActionStore consists of two parts, the frontend (Javascript) part and the backen
 
 The `@buhrmi/actionstore` package exports the following functions:
 
-`const someStore = subscribe(sgid, initial=null, storeId=sgid)` - Sets up a new subscription to the record with the specified global id. You can optionally pass a storeId. If a new subscription with the same storeId is created, the old subscription will be cancelled and removed.
+`const someStore = subscribe(sgid, initial=null, storeId=sgid)` - Sets up a new subscription to the record with the specified global id. You can optionally pass a storeId. If a new subscription with the same storeId is created, the old subscription will be cancelled and removed. If `sgid` is falsy, `subscribe` will set the store value to `null`.
 
 `const someStore = store(storeId, initial=null)` - Gets the store with the specified id.
 

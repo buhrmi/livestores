@@ -60,8 +60,8 @@ export function subscribe(sgid, initial, store_id = sgid) {
     subscriptions[store_id] = null
   }
   if (!sgid) {
-    const store = getStore(store_id, initial)
-    store.set(initial)
+    const store = getStore(store_id, null)
+    store.set(null)
     return store
   }
   const defaultStore = getStore(store_id, initial)
