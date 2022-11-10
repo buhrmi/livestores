@@ -40,6 +40,13 @@ function writableWithEvents(initialData) {
       })
     })
   })
+  store.on('delete_by', function(data) {
+    store.update(function($data) {
+      return ($data || []).filter(function(item) {
+        return item[data.key] != data.value
+      })
+    })
+  })
   return store
 }
 
@@ -52,7 +59,11 @@ export function subscribe(sgid, initial, store_id = sgid) {
     consumer.subscriptions.remove(subscriptions[store_id])
     subscriptions[store_id] = null
   }
-  if (!sgid) return writable(null)
+  if (!sgid) {
+    const store = getStore(store_id, initial)
+    store.set(initial)
+    return store
+  }
   const defaultStore = getStore(store_id, initial)
   const subscription = subscriptions[store_id] ||= consumer.subscriptions.create({ channel: "Actionstore::Channel", sgid }, {
     received: function(data) {
