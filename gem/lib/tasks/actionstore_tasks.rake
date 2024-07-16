@@ -1,4 +1,4 @@
 # desc "Explaining what the task does"
-# task :actionstore do
+# task :livestore do
 #   # Task goes here
 # end

@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class ActionstoreTest < ApplicationSystemTestCase
+class LivestoreTest < ApplicationSystemTestCase
 
   test 'subscribing, updating, appending' do
     visit '/'

@@ -1,11 +1,12 @@
 <script>
-  import { subscribe, store } from "@buhrmi/actionstore"
-  export let user_sgid
-  const user = subscribe(user_sgid, {})
-  const messages = store('messages', [])
+  import { subscribe, getStore } from "livestore"
+
+  const UserChannel = subscribe('UserChannel')
+  const user = getStore('user', {})
+  const messages = getStore('messages', [])
 
   function makeMessage() {
-    user.perform('make_message', 'Hello World')
+    UserChannel.perform('make_message', {text:'Hello World'})
   }
 </script>
 
@@ -14,7 +15,7 @@
 <h2>Messages</h2>
 
 {#each $messages as message}
-  {message.text}
+  {message}
 {/each}
 
 <button on:click={makeMessage}>Make Message</button>

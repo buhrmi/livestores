@@ -1,11 +1,11 @@
-require_relative "lib/actionstore/version"
+require_relative "lib/livestore/version"
 
 Gem::Specification.new do |spec|
-  spec.name        = "actionstore"
-  spec.version     = Actionstore::VERSION
+  spec.name        = "livestore"
+  spec.version     = Livestore::VERSION
   spec.authors     = ["Stefan Buhrmester"]
   spec.email       = ["buhrmi@gmail.com"]
-  spec.homepage    = "https://github.com/buhrmi/actionstore"
+  spec.homepage    = "https://github.com/buhrmi/livestore"
   spec.summary     = "Push data into Svelte stores from Rails"
   spec.description = "Push data into Svelte stores from Rails"
   spec.license     = "MIT"

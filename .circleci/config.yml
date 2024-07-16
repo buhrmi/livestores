@@ -3,7 +3,7 @@ orbs:
   browser-tools: circleci/browser-tools@1.4.0
 jobs:
   build:
-    working_directory: ~/actionstore/dummy
+    working_directory: ~/livestore/dummy
     docker:
       - image: cimg/ruby:3.1.2-browsers
         environment:
@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - checkout:
-          path: ~/actionstore
+          path: ~/livestore
 
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
@@ -34,7 +34,7 @@ jobs:
 
       - run: npm install
 
-      # Install actionstore dependencies
+      # Install livestore dependencies
       - run: (cd ../package && npm install)
 
         # Cache Dependencies

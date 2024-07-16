@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
   def show
-    @user_sgid = User.find(params[:id]).to_sgid_param
+    @user = User.where(id: 1).first_or_create!(name: "henlo")
   end
 end

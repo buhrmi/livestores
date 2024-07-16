@@ -1,6 +1,6 @@
 {
-  "name": "@buhrmi/actionstore",
-  "version": "0.3.3",
+  "name": "livestore",
+  "version": "0.1.0",
   "description": "Push data from your Rails backend directly into Svelte stores",
   "main": "index.js",
   "scripts": {
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/buhrmi/actionstore.git"
+    "url": "git+https://github.com/buhrmi/livestore.git"
   },
   "type": "module",
   "keywords": [
@@ -19,9 +19,9 @@
   "author": "Stefan Buhrmester",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/buhrmi/actionstore/issues"
+    "url": "https://github.com/buhrmi/livestore/issues"
   },
-  "homepage": "https://github.com/buhrmi/actionstore#readme",
+  "homepage": "https://github.com/buhrmi/livestore#readme",
   "dependencies": {
     "@rails/actioncable": "^7.0.0"
   }
