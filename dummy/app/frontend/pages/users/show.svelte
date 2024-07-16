@@ -1,5 +1,5 @@
 <script>
-  import { subscribe, getStore } from "livestore"
+  import { subscribe, getStore } from "livestores"
 
   const UserChannel = subscribe('UserChannel')
   const user = getStore('user', {})

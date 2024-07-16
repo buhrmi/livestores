@@ -1,7 +1,7 @@
 PATH
   remote: ../gem
   specs:
-    livestore (0.3.2)
+    livestores (0.1.0)
       rails (>= 7.0.4)
 
 GEM
@@ -248,7 +248,7 @@ DEPENDENCIES
   debug
   inertia_rails (~> 3.0)
   jbuilder
-  livestore!
+  livestores!
   minitest-ci
   puma (~> 5.0)
   rails (~> 7.0.4)

@@ -1,17 +1,17 @@
-# LiveStore
+# LiveStores
 
-[![CircleCI](https://circleci.com/gh/buhrmi/livestore.svg?style=shield)](https://circleci.com/gh/livestore)
-[![Gem Version](https://badge.fury.io/rb/livestore.svg)](https://rubygems.org/gems/livestore)
-[![npm version](https://badge.fury.io/js/livestore.svg)](https://www.npmjs.com/package/livestore)
+[![CircleCI](https://circleci.com/gh/buhrmi/livestores.svg?style=shield)](https://circleci.com/gh/livestores)
+[![Gem Version](https://badge.fury.io/rb/livestores.svg)](https://rubygems.org/gems/livestores)
+[![npm version](https://badge.fury.io/js/livestores.svg)](https://www.npmjs.com/package/livestores)
 
-LiveStore makes it easy to update Svelte stores in real-time through ActionCable.
+LiveStores make it easy to update Svelte stores in real-time through ActionCable.
 
 ## Example
 
 Subscribe to an ActionCable Channel: 
 
 ```js
-import { subscribe, getStore } from 'livestore'
+import { subscribe, getStore } from 'livestores'
 
 subscribe('UserChannel')
 
@@ -36,7 +36,7 @@ Full docs coming soon.
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'livestore'
+gem 'livestores'
 ```
 
 And then execute:
@@ -47,5 +47,5 @@ And then execute:
 
 Install the package:
 
-    $ yarn add livestore
+    $ npm i -D livestores
 

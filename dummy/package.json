@@ -4,7 +4,7 @@
     "@inertiajs/svelte": "*",
     "@rails/actioncable": "^7.1.3-4",
     "@sveltejs/vite-plugin-svelte": "^3.1.1",
-    "livestore": "file:../package",
+    "livestores": "file:../package",
     "svelte": "^4.2.18",
     "vite": "^5.3.4",
     "vite-plugin-ruby": "^5.0.0"
