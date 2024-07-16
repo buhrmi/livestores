@@ -12,8 +12,11 @@ Subscribe to an ActionCable Channel:
 
 ```js
 import { subscribe, getStore } from 'livestores'
+import { onDestroy } from 'svelte'
 
-subscribe('UserChannel')
+const channel = subscribe('UserChannel')
+
+onDestroy(channel.unsubscribe)
 
 // This initializes the notifications livestore with an empty array
 const notifications = getStore('notifications', [])
