@@ -11,7 +11,9 @@ LiveStores make it easy to update Svelte stores in real-time through ActionCable
 
 ### Notifications
 
-In this example we take a look at how to display user notifications in real-time. irst, create a channel that will be used to send notifications: `rails g channel UserChannel`:
+In this example we take a look at how to display user notifications in real-time. 
+
+First, create a channel that will be used to send notifications: `rails g channel UserChannel`:
 
 ```rb
 class UserChannel < ApplicationCable::Channel
