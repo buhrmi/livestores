@@ -14,17 +14,19 @@ Subscribe to an ActionCable Channel:
 import { subscribe, getStore } from 'livestores'
 import { onDestroy } from 'svelte'
 
+// Set up a subscription to the UserChannel
 const channel = subscribe('UserChannel')
 
+// Don't forget to unsubscribe when the component is destroyed
 onDestroy(channel.unsubscribe)
 
-// This initializes the notifications livestore with an empty array
+// Get a reference to the notifications store and initialize it with an empty array
 const notifications = getStore('notifications', [])
 
 $: console.log($notifications)
 ```
 
-To push a notification into the `notifications`:
+To push a notification into the `notifications` store:
 
 ```rb
 UserChannel[current_user].store('notifications').append({text: "Hello from Ruby"})
