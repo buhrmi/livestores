@@ -1,6 +1,6 @@
 # LiveStores
 
-[![CircleCI](https://circleci.com/gh/buhrmi/livestores.svg?style=shield)](https://circleci.com/gh/livestores)
+[![CircleCI](https://circleci.com/gh/buhrmi/livestores.svg?style=shield)](https://circleci.com/gh/buhrmi/livestores)
 [![Gem Version](https://badge.fury.io/rb/livestores.svg)](https://rubygems.org/gems/livestores)
 [![npm version](https://badge.fury.io/js/livestores.svg)](https://www.npmjs.com/package/livestores)
 
