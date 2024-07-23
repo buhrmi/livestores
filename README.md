@@ -48,7 +48,7 @@ $: console.log($notifications)
 Now you can server-side push directly into the `notifications` store through the UserChannel:
 
 ```rb
-UserChannel[current_user].store('notifications').append({text: "Hello from Ruby"})
+UserChannel[some_user].store('notifications').append({text: "Hello from Ruby"})
 ```
 
 ## Docs
