@@ -25,7 +25,7 @@ end
 
 #### Client Side
 
-Instead of subscribing Then subscribe to the UserChannel and initialize a `notifications` store.
+Set up a subscrioption and initialize a `notifications` store.
 
 ```js
 import { subscribe, getStore } from 'livestores'
