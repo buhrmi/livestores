@@ -25,7 +25,7 @@ end
 
 #### Client Side
 
-Set up a subscrioption and initialize a `notifications` store.
+Set up a subscription and initialize a `notifications` store.
 
 ```js
 import { subscribe, getStore } from 'livestores'
