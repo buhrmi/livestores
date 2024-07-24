@@ -28,7 +28,7 @@ end
 
 Set up a subscription and initialize a `notifications` store.
 
-```js
+```html
 // some_component.svelte
 <script>
 import { subscribe, getStore } from 'livestores'
