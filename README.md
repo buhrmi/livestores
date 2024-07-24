@@ -26,7 +26,7 @@ end
 
 #### Client Side
 
-Set up a subscription and initialize a `notifications` store.
+Inside your component, set up a subscription and initialize a `notifications` store.
 
 ```html
 <script>
