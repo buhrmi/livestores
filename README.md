@@ -16,7 +16,6 @@ Inside your component, set up a subscription and initialize a `notifications` st
 
 ```html
 <script>
-// some_component.svelte
 import { subscribe, getStore } from 'livestores'
 import { onDestroy } from 'svelte'
 
