@@ -8,21 +8,7 @@ LiveStores make it easy to update Svelte stores in real-time through ActionCable
 
 ## Example
 
-
-### Notifications
-
-In this example we take a look at how to display user notifications in real-time. 
-
-First, create a channel that will be used to send notifications:
-
-```rb
-# user_channel.rb
-class UserChannel < ApplicationCable::Channel
-  def subscribed
-    stream_for current_user
-  end
-end
-```
+Let's assume you have a web app and would like to display real-time notifications to your users. This can be easily done with LiveStores. We'll just add new notifications to a Svelte store. 
 
 #### Client Side
 
@@ -42,12 +28,25 @@ onDestroy(channel.unsubscribe)
 
 // Get a reference to the notifications store and initialize it with an empty array
 const notifications = getStore('notifications', [])
-
-$: console.log($notifications)
 </script>
+
+{#each $notifications as notification}
+  <p>{notification.text}</p>
+{/each}
 ```
 
 #### Server side
+
+On the Ruby side, we of course need a channel that we can subscribe to:
+
+```rb
+# user_channel.rb
+class UserChannel < ApplicationCable::Channel
+  def subscribed
+    stream_for current_user
+  end
+end
+```
 
 Now you can server-side push directly into the `notifications` store through the UserChannel:
 
@@ -57,7 +56,7 @@ UserChannel[some_user].store('notifications').append({text: "Hello from Ruby"})
 
 ## Docs
 
-Under construction
+Full docs coming soon.
 
 ## Installation
 
