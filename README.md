@@ -8,7 +8,7 @@ LiveStores are the missing link for real-time apps with Ruby on Rails and Svelte
 
 ## Example
 
-Let's assume you have a web app and would like to display real-time notifications to your users. This can be easily done with LiveStores. We'll just add new notifications to a Svelte store. 
+Let's assume you have a web app and would like to display real-time notifications to your users. This can be easily done with LiveStores by pushing new notifications to a Svelte store as they happen.
 
 #### Client Side
 
