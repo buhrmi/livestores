@@ -4,7 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/livestores.svg)](https://rubygems.org/gems/livestores)
 [![npm version](https://badge.fury.io/js/livestores.svg)](https://www.npmjs.com/package/livestores)
 
-With LiveStores you can easily update Svelte stores from Rails. Think of them as the missing link between Rails and Svelte.
+With LiveStores you can easily update Svelte stores from Rails via ActionCable. Think of them as the missing link between Rails and Svelte.
 
 ## Example
 
