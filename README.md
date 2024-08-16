@@ -20,10 +20,10 @@ import { subscribe, getStore } from 'livestores'
 import { onDestroy } from 'svelte'
 
 // Set up a subscription to the UserChannel
-const channel = subscribe('UserChannel')
+const subscription = subscribe('UserChannel')
 
 // Don't forget to unsubscribe when the component is destroyed
-onDestroy(channel.unsubscribe)
+onDestroy(subscription.unsubscribe)
 
 // Get a reference to the notifications store and initialize it with an empty array
 const notifications = getStore('notifications', [])
