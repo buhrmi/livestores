@@ -57,6 +57,11 @@ UserChannel[some_user].store('messages').append({text: "Hello from Ruby"})
 
 Full docs coming soon.
 
+## Roadmap
+
+- [ ] Save stores in Svelte context to avoid risk of leaking data during SSR
+- [ ] Cache store data locally for offline support
+
 ## Installation
 
 ### Ruby gem
