@@ -40,7 +40,7 @@ On the Ruby side, we of course need a channel that we can subscribe to:
 
 ```rb
 # user_channel.rb
-class MessagesChannel < ApplicationCable::Channel
+class UserChannel < ApplicationCable::Channel
   def subscribed
     stream_for current_user
   end
