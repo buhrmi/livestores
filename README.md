@@ -55,9 +55,11 @@ UserChannel[some_user].store('messages').merge([{text: "Hello from Ruby"}])
 
 ## Usage
 
-There are 3 methods available on LiveStore that you can use to manipulate stores on the client: `set`, `merge`, and `upsert`:
+### Backend
 
-### `set(data)`
+There are 3 methods available on LiveStores that you can use to manipulate stores on the client: `set`, `merge`, and `upsert`:
+
+#### `set(data)`
 
 ```rb
 UserChannel[some_user].store('current_user').set(current_user.as_json)
@@ -65,22 +67,21 @@ UserChannel[some_user].store('current_user').set(current_user.as_json)
 
 This replaces the value of store with whatever is passed to the method.
 
-### `merge(data)`
+#### `merge(data)`
 
 ```rb
 UserChannel[some_user].store('current_user').merge({name: 'new name'})
 ```
 
-This merges the value of store with whatever is passed to the method. If the value contains arrays, they will be concatenated.
+This deeply merges the value of the store with whatever is passed to the method. If the deep merge encounters arrays, they will be concatenated.
 
-### `upsert(data, key = "id")`
+#### `upsert(data, key = "id")`
 
 ```rb
 UserChannel[some_user].store('projects').upsert([{id: 4, name: "new name"}])
 ```
 
-This runs an upsert on the array or nested arrays inside the store, using the specified `key` (`id` by default).
-
+Same as `merge`, but objects inside arrays will be upserted using specified `key`, instead of concatenated.
 
 ## TODO
 
