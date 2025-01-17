@@ -50,14 +50,39 @@ end
 Now you can server-side push directly into the `messages` store through the UserChannel:
 
 ```rb
-UserChannel[some_user].store('messages').append({text: "Hello from Ruby"})
+UserChannel[some_user].store('messages').merge([{text: "Hello from Ruby"}])
 ```
 
-## Docs
+## Usage
 
-Full docs coming soon.
+There are 3 methods available on LiveStore that you can use to manipulate stores on the client: `set`, `merge`, and `upsert`:
 
-## Roadmap
+### `set(data)`
+
+```rb
+UserChannel[some_user].store('current_user').set(current_user.as_json)
+```
+
+This replaces the value of store with whatever is passed to the method.
+
+### `merge(data)`
+
+```rb
+UserChannel[some_user].store('current_user').merge({name: 'new name'})
+```
+
+This merges the value of store with whatever is passed to the method. If the value contains arrays, they will be concatenated.
+
+### `upsert(data, key = "id")`
+
+```rb
+UserChannel[some_user].store('projects').upsert([{id: 4, name: "new name"}])
+```
+
+This runs an upsert on the array or nested arrays inside the store, using the specified `key` (`id` by default).
+
+
+## TODO
 
 - [ ] Save stores in Svelte context to avoid risk of leaking data during SSR
 - [ ] Cache store data locally for offline support

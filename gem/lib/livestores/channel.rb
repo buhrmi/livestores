@@ -20,20 +20,12 @@ module ApplicationCable
       transmit action: "set", value: value
     end
 
-    def update changes
-      transmit action: "update", changes: changes
+    def merge value
+      transmit action: "merge", value: value
     end
 
-    def update_by_id_in key, id, changes
-      transmit action: "update_by_id_in", key: key, id: id, changes: changes
-    end
-
-    def append_to key, value
-      transmit action: "append_to", value: value, key: key
-    end
-
-    def append value
-      transmit action: "append", value: value
+    def upsert value, key = 'id'
+      transmit action: "upsert", key: key, value: value
     end
   end
 

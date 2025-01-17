@@ -8,10 +8,6 @@ export default defineConfig({
   },
   plugins: [
     RubyPlugin(),
-    svelte({
-      experimental: {
-        prebundleSvelteLibraries: true
-      }
-    })
+    svelte()
   ]
 })

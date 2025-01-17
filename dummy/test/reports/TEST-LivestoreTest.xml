@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite time='3.667076' skipped='0' failures='1' errors='0' name="LivestoreTest" assertions='1' tests='1' timestamp="2025-01-17T18:40:15+07:00">
+  <testcase time='3.667076' file="test/system/livestores_test.rb" name="test_subscribing,_updating,_appending" assertions='1'>
+    <failure type='Minitest::Assertion' message="expected to find text &quot;henlo&quot; in &quot;undefined\&#13;&#10;Messages\&#13;&#10;Make Message&quot;">test/system/livestores_test.rb:7:in `block in &lt;class:LivestoreTest&gt;&#39;
+    </failure>
+  </testcase>
+</testsuite>

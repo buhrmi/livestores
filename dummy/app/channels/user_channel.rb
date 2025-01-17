@@ -11,8 +11,4 @@ class UserChannel < ApplicationCable::Channel
     # Any cleanup needed when channel is unsubscribed
   end
 
-
-  def make_message whatever
-    UserChannel[@current_user].store('messages').append(whatever['text'])
-  end
 end

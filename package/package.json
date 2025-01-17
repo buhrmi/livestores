@@ -22,7 +22,8 @@
     "url": "https://github.com/buhrmi/livestores/issues"
   },
   "homepage": "https://github.com/buhrmi/livestores#readme",
-  "dependencies": {
-    "@rails/actioncable": "^7.0.0"
+  "devDependencies": {
+    "@rails/actioncable": "^7.0.0",
+    "deepmerge": "^4.3.1"
   }
 }
