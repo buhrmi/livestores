@@ -83,6 +83,20 @@ UserChannel[some_user].store('projects').upsert([{id: 4, name: "new name"}])
 
 Same as `merge`, but objects inside arrays will be upserted using specified `key`, instead of concatenated.
 
+### `store(...)`
+
+The `store` method is also available on a Channel instance. That means that you can update Svelte stores through a specific connection, instead of broadcasting to all subscribers:
+
+```rb
+# user_channel.rb
+class UserChannel < ApplicationCable::Channel
+  def subscribed
+    stream_for current_user
+    store('current_user').set(current_user.as_json)
+  end
+end
+```
+
 ## TODO
 
 - [ ] Save stores in Svelte context to avoid risk of leaking data during SSR
