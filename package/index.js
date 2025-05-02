@@ -4,7 +4,7 @@ import deepmerge from 'deepmerge'
 let consumer;
 let stores = {}
 
-export function upsert(key) {
+function upsert(key) {
   return function(target, source) {
     source.forEach(function(updatedItem) {
       const oldItem = target.find((item) => item[key] == updatedItem[key])
@@ -15,35 +15,43 @@ export function upsert(key) {
   }
 }
 
-function storeWithHandlers(initial = null) {
-  const store = writable(initial);
-  const callbacks = {};
-  store.on = function(event, callback) {
-    callbacks[event] = callback;
-    return store;
-  };
-  store.handle = function(event, data) {
-    if (callbacks[event]) {
-      callbacks[event](data);
-    }
-    return store;
-  };
-  store.on("set", function(data) {
+const handlers = {
+  set(store, data) {
     store.set(data.value);
-  });
-  store.on("merge", function(data) {
-    store.update(function($data) {
-      return deepmerge($data, data.value);
-    });
-  });
-  store.on("upsert", function(data) {
-    const arrayMerge = upsert(data.key)
+  },
+  merge(store, data, arrayMerge) {
     store.update(function($data) {
       return deepmerge($data, data.value, {arrayMerge});
-    })
-  })
-  
-  return store;
+    });
+  },
+  upsert(store, data) {
+    const arrayMergeFn = upsert(data.key)
+    handlers.merge(store, data, arrayMergeFn)
+  },
+};
+
+export function reset() {
+  stores = {};
+}
+
+export function registerHandler(action, handler) {
+  if (typeof action !== "string") {
+    throw new Error("Action must be a string");
+  }
+  if (typeof handler !== "function") {
+    throw new Error("Handler must be a function");
+  }
+  handlers[action] = handler;
+}
+
+function handle(store, action, data) {
+  if (typeof action !== "string") {
+    throw new Error("Action must be a string");
+  }
+  if (typeof handlers[action] !== "function") {
+    throw new Error(`No handler registered for action: ${action}`);
+  }
+  handlers[action](store, data);
 }
 
 export function getStore(storeId, mergeData, arrayMerge) {
@@ -53,11 +61,11 @@ export function getStore(storeId, mergeData, arrayMerge) {
     return $data ? deepmerge($data, mergeData, { arrayMerge }) : mergeData
   })
  
-  return (stores[storeId] ||= storeWithHandlers(mergeData));
+  return (stores[storeId] ||= writable(mergeData));
 }
 
 export function initStore(storeId, initialData) {
-  const store = stores[storeId] ||= storeWithHandlers()
+  const store = stores[storeId] ||= writable()
   store.set(initialData)
   return store
 }
@@ -80,7 +88,8 @@ export function subscribe(channel, params = {}) {
     { channel, ...params },
     {
       received: function (data) {
-        getStore(data.store_id).handle(data.action, data);
+        const store = getStore(data.store_id)
+        handle(store, data.action, data);
       },
     },
   );

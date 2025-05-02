@@ -7,5 +7,7 @@ class LivestoreTest < ApplicationSystemTestCase
     assert_text 'henlo'
     click_on 'Make Message'
     assert_text 'Hello World'
+    assert_text 'newnew'
+    assert_text 'Large Number: 1000'
   end
 end

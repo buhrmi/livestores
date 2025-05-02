@@ -57,7 +57,7 @@ UserChannel[some_user].store('messages').merge([{text: "Hello from Ruby"}])
 
 ### Backend
 
-There are 3 methods available on LiveStores that you can use to manipulate stores on the client: `set`, `merge`, and `upsert`:
+LiveStores comes with 3 built-in methods that you can use to update stores on the client: `set`, `merge`, and `upsert`:
 
 #### `set(data)`
 
@@ -81,9 +81,25 @@ This deeply merges the value of the store with whatever is passed to the method.
 UserChannel[some_user].store('projects').upsert([{id: 4, name: "new name"}])
 ```
 
-Same as `merge`, but objects inside arrays will be upserted using specified `key`, instead of concatenated.
+This is basically the same as `merge`, but instead of concatenating arrays, it upserts the objects inside the array, using specified `key` (`id` by default).
 
-### `store(...)`
+### Custom methods
+
+You can also define custom methods to update your stores.
+
+```js
+import { registerHandler } from 'livestores'
+
+registerHandler('keepLarger', function(store, data) {
+  store.update($data => return $data >= data.value ? $data : data)
+})
+```
+
+```ruby
+UserChannel[some_user].store('large_number').keepLarger value: 100
+```
+
+### Channel Instances
 
 The `store` method is also available on a Channel instance. That means that you can update Svelte stores through a specific connection, instead of broadcasting to all subscribers:
 
@@ -97,9 +113,20 @@ class UserChannel < ApplicationCable::Channel
 end
 ```
 
+### SSR
+
+When using LiveStores in an SSR context, it is very important to call `reset()` before or after rendering, to clear the stores and avoid any data leakage between requests.
+
+```js
+import { reset } from 'livestores'
+
+reset()
+
+// ... rest of code comes here
+```
+
 ## TODO
 
-- [ ] Save stores in Svelte context to avoid risk of leaking data during SSR
 - [ ] Cache store data locally for offline support
 
 ## Installation

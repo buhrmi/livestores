@@ -1,7 +1,7 @@
 PATH
   remote: ../gem
   specs:
-    livestores (0.1.0)
+    livestores (1.0.0)
       rails (>= 7.0.4)
 
 GEM

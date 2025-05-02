@@ -27,6 +27,10 @@ module ApplicationCable
     def upsert value, key = 'id'
       transmit action: "upsert", key: key, value: value
     end
+
+    def method_missing method, **args
+      transmit action: method, **args
+    end
   end
 
   class ScopedChannel
