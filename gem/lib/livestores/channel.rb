@@ -1,7 +1,5 @@
 module ApplicationCable
   class Store
-    attr_accessor :transmitter
-
     def initialize subject, channel, store_id = nil
       @channel = channel
       @subject = subject

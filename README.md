@@ -91,8 +91,10 @@ You can also define custom methods to update your stores.
 import { registerHandler } from 'livestores'
 
 registerHandler('keepLarger', function(store, data) {
-  store.update($data => return $data >= data.value ? $data : data)
+  store.update($data => $data >= data.value ? $data : data)
 })
+
+const largeNumber = getStore('large_number', 99)
 ```
 
 ```ruby
