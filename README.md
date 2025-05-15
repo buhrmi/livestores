@@ -91,15 +91,15 @@ You can also define custom methods to update your stores.
 ```js
 import { registerHandler } from 'livestores'
 
-registerHandler('keepLarger', function(store, data) {
-  store.update(current => Math.max(current, data.value))
+registerHandler('concat', function(store, data) {
+  store.update(current => `${current}${data}`)
 })
 
-const largeNumber = getStore('large_number', 99)
+const longString = getStore('long_string', "initial string")
 ```
 
 ```ruby
-UserChannel[some_user].store('large_number').keepLarger value: 100
+UserChannel[some_user].store('long_string').concat "next chunk"
 ```
 
 ### Channel Instances
