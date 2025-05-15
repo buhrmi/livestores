@@ -20,7 +20,7 @@ import { subscribe, getStore } from 'livestores'
 import { onDestroy } from 'svelte'
 
 // Set up a subscription to the UserChannel
-// (You can also subscribe with params: subscribe('SomeChannel', {someparam: 123})`)
+// (You can also subscribe with params: subscribe('SomeChannel', {someparam: 123}))
 const subscription = subscribe('UserChannel')
 
 // Don't forget to unsubscribe when the component is destroyed
