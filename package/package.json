@@ -1,6 +1,6 @@
 {
   "name": "livestores",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Push data from your Rails backend directly into Svelte stores",
   "main": "index.js",
   "scripts": {
