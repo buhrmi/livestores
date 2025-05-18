@@ -102,7 +102,7 @@ const longString = getStore('long_string', "initial string")
 UserChannel[some_user].store('long_string').concat "next chunk"
 ```
 
-### Channel Instances
+### Send using a specific connection
 
 The `store` method is also available on a Channel instance. That means that you can update Svelte stores through a specific connection, instead of broadcasting to all subscribers:
 

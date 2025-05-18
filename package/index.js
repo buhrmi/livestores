@@ -2,7 +2,7 @@ import { createConsumer } from "@rails/actioncable";
 import { writable } from "svelte/store";
 import deepmerge from 'deepmerge'
 let consumer;
-let stores = {}
+const stores = new Map();
 
 function upsert(key) {
   return function(target, source) {
@@ -31,7 +31,7 @@ const handlers = {
 };
 
 export function reset() {
-  stores = {};
+  stores.clear();
 }
 
 export function registerHandler(action, handler) {
@@ -54,12 +54,10 @@ function handle(store, action, data) {
   handlers[action](store, data);
 }
 
-export function getStore(storeId, mergeData, arrayMerge) {
-  const store = stores[storeId]
+export function getStore(storeId, mergeData, handler = "merge") {
+  const store = stores[storeId];
 
-  if (store && mergeData !== undefined) store.update(function($data) {
-    return $data ? deepmerge($data, mergeData, { arrayMerge }) : mergeData
-  })
+  if (store && mergeData !== undefined) handlers[handler](store, mergeData)
  
   return (stores[storeId] ||= writable(mergeData));
 }
@@ -97,4 +95,11 @@ export function subscribe(channel, params = {}) {
   return function unsubscribe() {
     consumer.subscriptions.remove(subscription);
   };
+}
+
+export function reconnect() {
+  if (consumer) {
+    console.log("Reconnecting to ActionCable...");
+    consumer.connection.reopen();
+  }
 }
