@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite time='2.361805' skipped='0' failures='0' errors='0' name="LivestoreTest" assertions='4' tests='1' timestamp="2025-05-23T09:22:11+07:00">
-  <testcase time='2.361805' file="test/system/livestores_test.rb" name="test_subscribing,_updating,_appending" assertions='4'>
+<testsuite time='1.429116' skipped='0' failures='0' errors='0' name="LivestoreTest" assertions='7' tests='1' timestamp="2025-05-23T09:42:24+07:00">
+  <testcase time='1.429116' file="test/system/livestores_test.rb" name="test_subscribing,_updating,_appending" assertions='7'>
   </testcase>
 </testsuite>

@@ -10,6 +10,7 @@
   const records = getStore('records', [{id:1, name: "old"}])
   const largeNumber = getStore('large_number', 5)
   const word = getStore('word', 'hello')
+  const obj = getStore('object', {value: 'old'})
 
   $: console.log($messages)
 
@@ -47,4 +48,9 @@ Large Number: {$largeNumber}
 <h2>
   Long word: {$word}
 </h2>
+
+<h2>
+Object value: {$obj.value}
+</h2>
+
 <button on:click={makeMessage}>Make Message</button>
