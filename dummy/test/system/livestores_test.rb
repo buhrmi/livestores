@@ -9,5 +9,6 @@ class LivestoreTest < ApplicationSystemTestCase
     assert_text 'Hello World'
     assert_text 'newnew'
     assert_text 'Large Number: 1000'
+    assert_text 'Word: hellochunk2'
   end
 end

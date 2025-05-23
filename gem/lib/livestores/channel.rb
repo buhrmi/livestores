@@ -6,28 +6,28 @@ module ApplicationCable
       @store_id = store_id
     end
 
-    def transmit data
+    def transmit action, data
       if @subject
-        @channel.broadcast_to @subject, ({store_id: @store_id}).compact.merge(data)
+        @channel.broadcast_to @subject, ({store_id: @store_id, action: action}).compact.merge(data: data)
       else
-        @channel.transmit ({store_id: @store_id}).compact.merge(data)
+        @channel.transmit ({store_id: @store_id, action: action}).compact.merge(data: data)
       end
     end
 
     def set value
-      transmit action: "set", value: value
+      transmit :set, value
     end
 
     def merge value
-      transmit action: "merge", value: value
+      transmit :merge, value
     end
 
     def upsert value, key = 'id'
-      transmit action: "upsert", key: key, value: value
+      transmit :upsert, key: key, value: value
     end
 
-    def method_missing method, **args
-      transmit action: method, **args
+    def method_missing method, data
+      transmit method, data
     end
   end
 

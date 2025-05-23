@@ -9,6 +9,7 @@
   const messages = getStore('messages', [])
   const records = getStore('records', [{id:1, name: "old"}])
   const largeNumber = getStore('large_number', 5)
+  const word = getStore('word', 'hello')
 
   $: console.log($messages)
 
@@ -16,6 +17,9 @@
     axios.post('/messages', { message: 'Hello World' })
   }
 
+registerHandler('concat', function(store, data) {
+  store.update(_data => _data.concat(data))
+})
   
 registerHandler('keepLarger', function(store, data) {
   store.update(_data => _data >= data.value ? _data : data.value)
@@ -40,4 +44,7 @@ registerHandler('keepLarger', function(store, data) {
 Large Number: {$largeNumber}
 </h2>
 
+<h2>
+  Long word: {$word}
+</h2>
 <button on:click={makeMessage}>Make Message</button>

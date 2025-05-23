@@ -10,6 +10,7 @@ class MessagesController < ApplicationController
     UserChannel[@user].store('large_number').keepLarger(value: 500)
     UserChannel[@user].store('large_number').keepLarger(value: 1000)
     UserChannel[@user].store('large_number').keepLarger(value: 800)
+    UserChannel[@user].store('word').concat("chunk2")
   end
 
   private

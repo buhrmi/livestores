@@ -17,16 +17,16 @@ function upsert(key) {
 
 const handlers = {
   set(store, data) {
-    store.set(data.value);
+    store.set(data);
   },
   merge(store, data, arrayMerge) {
     store.update(function($data) {
-      return deepmerge($data, data.value, {arrayMerge});
+      return deepmerge($data, data, {arrayMerge});
     });
   },
   upsert(store, data) {
     const arrayMergeFn = upsert(data.key)
-    handlers.merge(store, data, arrayMergeFn)
+    handlers.merge(store, data.value, arrayMergeFn)
   },
 };
 
@@ -85,9 +85,9 @@ export function subscribe(channel, params = {}) {
   const subscription = consumer.subscriptions.create(
     { channel, ...params },
     {
-      received: function (data) {
+      received: function(data) {
         const store = getStore(data.store_id)
-        handle(store, data.action, data);
+        handle(store, data.action, data.data);
       },
     },
   );
