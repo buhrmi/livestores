@@ -28,6 +28,11 @@ const handlers = {
     const arrayMergeFn = upsert(data.key)
     handlers.merge(store, data.value, arrayMergeFn)
   },
+  delete(store, data) {
+    store.update(function($data) {
+      return $data.filter((item) => item[data.key] !== data.value);
+    });
+  }
 };
 
 export function reset() {
