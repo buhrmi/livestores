@@ -4,7 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/activestate.svg)](https://rubygems.org/gems/activestate)
 [![npm version](https://badge.fury.io/js/activestate.svg)](https://www.npmjs.com/package/activestate)
 
-ActiveState explores the idea that your entire application state can live inside one huge Svelte 5  `$state` object that can be updated by backend code via [JSONPath](https://en.wikipedia.org/wiki/JSONPath). For this purpose ActiveState augments your ActionCable Channels with methods to mutate this state object in real-time via websockets.
+ActiveState explores the idea of having your entire application state inside one giant Svelte 5  `$state` object that can be updated from the backend. For this purpose, ActiveState augments your ActionCable Channels with methods to mutate this giant state object in real-time via [JSONPath](https://en.wikipedia.org/wiki/JSONPath).
 
 ## Example
 
