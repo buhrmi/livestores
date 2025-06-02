@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite time='0.985390' skipped='0' failures='0' errors='0' name="LivestoreTest" assertions='17' tests='1' timestamp="2025-06-03T01:40:43+07:00">
-  <testcase time='0.985390' file="test/system/livestores_test.rb" name="test_subscribing,_updating,_appending" assertions='17'>
-  </testcase>
-</testsuite>
