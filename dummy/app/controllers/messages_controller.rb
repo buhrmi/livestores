@@ -5,13 +5,13 @@ class MessagesController < ApplicationController
   end
 
   def create
-    UserChannel[@user].store('messages').merge([params[:message]])
-    UserChannel[@user].store('records').upsert([{id: 1, name: "new"}, {id: 2, name: "new"}])
-    UserChannel[@user].store('object').set({value: 'Hello World'})
-    UserChannel[@user].store('large_number').keepLarger(value: 500)
-    UserChannel[@user].store('large_number').keepLarger(value: 1000)
-    UserChannel[@user].store('large_number').keepLarger(value: 800)
-    UserChannel[@user].store('word').concat("chunk2")
+    UserChannel[@user].state('user').set({id: @user.id, name: "new name"})
+    UserChannel[@user].state('messages').push([params[:message]])
+    UserChannel[@user].state('records').upsert([{id: 1, name: "new1"}, {id: 2, name: "new2"}])
+    UserChannel[@user].state('deeply.nested').set({value: "gotcha"})
+    UserChannel[@user].state('longString').append(" appended")
+    UserChannel[@user].state('val').delete "deleteme"
+    UserChannel[@user].state('delete.array').delete name: 'deleteMe'
   end
 
   private

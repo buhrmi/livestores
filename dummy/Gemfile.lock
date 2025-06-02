@@ -1,7 +1,7 @@
 PATH
   remote: ../gem
   specs:
-    livestores (1.1.3)
+    activestate (1.0.0)
       rails (>= 7.0.4)
 
 GEM
@@ -280,12 +280,12 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  activestate!
   bootsnap
   capybara
   debug
   inertia_rails (~> 3.0)
   jbuilder
-  livestores!
   minitest-ci
   puma
   rails (~> 8.0.0)

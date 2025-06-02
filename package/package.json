@@ -1,14 +1,14 @@
 {
-  "name": "livestores",
-  "version": "1.1.4",
-  "description": "Push data from your Rails backend directly into Svelte stores",
+  "name": "activestate",
+  "version": "1.0.0",
+  "description": "Push data from your Rails backend directly into Svelte 5 state",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/buhrmi/livestores.git"
+    "url": "git+https://github.com/buhrmi/activestate.git"
   },
   "type": "module",
   "keywords": [
@@ -19,11 +19,15 @@
   "author": "Stefan Buhrmester",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/buhrmi/livestores/issues"
+    "url": "https://github.com/buhrmi/activestate/issues"
   },
-  "homepage": "https://github.com/buhrmi/livestores#readme",
+  "homepage": "https://github.com/buhrmi/activestate#readme",
   "devDependencies": {
     "@rails/actioncable": "^7.2.201",
     "deepmerge": "^4.3.1"
+  },
+  "dependencies": {
+    "get-value": "^4.0.1",
+    "set-value": "^4.1.0"
   }
 }

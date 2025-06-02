@@ -5,8 +5,8 @@
     "@rails/actioncable": "^8.0.200",
     "@sveltejs/vite-plugin-svelte": "^3.1.2",
     "deepmerge": "^4.3.1",
-    "livestores": "file:../package",
-    "svelte": "^4.2.20",
+    "activestate": "file:../package",
+    "svelte": "^5.33.13",
     "vite": "^5.4.19",
     "vite-plugin-ruby": "^5.1.1"
   },

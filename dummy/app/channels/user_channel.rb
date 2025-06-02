@@ -2,7 +2,7 @@ class UserChannel < ApplicationCable::Channel
   def subscribed
     @current_user = User.find(1)
 
-    store('user').set @current_user.as_json
+    state('user').set @current_user.as_json
 
     stream_for @current_user
   end

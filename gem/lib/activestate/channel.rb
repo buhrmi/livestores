@@ -1,16 +1,18 @@
 module ApplicationCable
-  class Store
-    def initialize subject, channel, store_id = nil
+  class State
+    def initialize subject, channel, path = nil
       @channel = channel
       @subject = subject
-      @store_id = store_id
+      @path = path
     end
 
+
     def transmit action, data
+      message = {path: @path, action: action}.compact
       if @subject
-        @channel.broadcast_to @subject, ({store_id: @store_id, action: action}).compact.merge(data: data)
+        @channel.broadcast_to @subject, message.merge(data: data)
       else
-        @channel.transmit ({store_id: @store_id, action: action}).compact.merge(data: data)
+        @channel.transmit message.merge(data: data)
       end
     end
 
@@ -26,6 +28,10 @@ module ApplicationCable
       transmit :upsert, key: key, value: value
     end
 
+    def delete value
+      transmit :delete, value
+    end
+
     def method_missing method, data
       transmit method, data
     end
@@ -37,8 +43,8 @@ module ApplicationCable
       @subject = subject
     end
 
-    def store(store_id)
-      Store.new(@subject, @channel, store_id)
+    def state(path)
+      State.new(@subject, @channel, path)
     end
 
   end
@@ -49,8 +55,8 @@ module ApplicationCable
       ScopedChannel.new(self, subject)
     end
 
-    def store(store_id)
-      Store.new(nil, self, store_id)
+    def state(path)
+      State.new(nil, self, path)
     end
   end
 end

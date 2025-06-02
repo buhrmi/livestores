@@ -1,43 +1,18 @@
-# LiveStores
+# ActiveState
 
-[![CircleCI](https://circleci.com/gh/buhrmi/livestores.svg?style=shield)](https://circleci.com/gh/buhrmi/livestores)
-[![Gem Version](https://badge.fury.io/rb/livestores.svg)](https://rubygems.org/gems/livestores)
-[![npm version](https://badge.fury.io/js/livestores.svg)](https://www.npmjs.com/package/livestores)
+[![CircleCI](https://circleci.com/gh/buhrmi/activestate.svg?style=shield)](https://circleci.com/gh/buhrmi/activestate)
+[![Gem Version](https://badge.fury.io/rb/activestate.svg)](https://rubygems.org/gems/activestate)
+[![npm version](https://badge.fury.io/js/activestate.svg)](https://www.npmjs.com/package/activestate)
 
-LiveStores augments your ActionCable channels with methods to easily update Svelte stores directly from your backend.
+ActiveState augments your ActionCable channels with methods to easily update your centralized Svelte 5 state directly from your backend.
 
 ## Example
 
-Let's assume you have a web app and would like to display real-time messages to a specific user. This can be easily done with LiveStores by pushing new messages to a Svelte store as they happen. Let's have a look:
+Let's assume you have a web app and would like to display real-time messages to a specific user. This can be easily done with ActiveState by pushing new messages to a centralized state object as they happen. Let's have a look:
 
-#### Client Side
+### Set up
 
-Inside your component, set up a subscription and initialize a `messages` store.
-
-```html
-<script>
-import { subscribe, getStore } from 'livestores'
-import { onDestroy } from 'svelte'
-
-// Set up a subscription to the UserChannel
-// (You can also subscribe with params: subscribe('SomeChannel', {someparam: 123}))
-const subscription = subscribe('UserChannel')
-
-// Don't forget to unsubscribe when the component is destroyed
-onDestroy(subscription.unsubscribe)
-
-// Get a reference to the messages store and optionally initialize it with an empty array
-const messages = getStore('messages', [])
-</script>
-
-{#each $messages as message}
-  <p>{message.text}</p>
-{/each}
-```
-
-#### Server side
-
-On the Ruby side, we of course need a channel that we can subscribe to:
+First, we of course need a channel that we can subscribe to:
 
 ```rb
 # user_channel.rb
@@ -48,82 +23,118 @@ class UserChannel < ApplicationCable::Channel
 end
 ```
 
-Now you can server-side push directly into the `messages` store through the UserChannel:
+Then, inside your component, set up a subscription and iterate over `state.messages`.
+
+```svelte
+<script>
+import { subscribe, State } from 'activestate'
+import { onDestroy } from 'svelte'
+
+// Set up a subscription to the UserChannel
+const unsubscribe = subscribe('UserChannel', {user_id: something})
+
+// Don't forget to unsubscribe when the component is destroyed
+onDestroy(unsubscribe)
+
+// Iinitialize it with an empty array
+State.messages ||= []
+const messages = $derived(State.messages)
+</script>
+
+{#each messages as message}
+  <p>{message.text}</p>
+{/each}
+```
+
+Now you can server-side push directly into `state.messages` through the UserChannel:
 
 ```rb
-UserChannel[some_user].store('messages').merge([{text: "Hello from Ruby"}])
+# Somewhere in your Ruby code:
+UserChannel[some_user].state('messages').push([{text: "Hello from Ruby"}])
 ```
 
 ## Usage
 
-### Backend
-
-LiveStores comes with 3 built-in methods that you can use to update stores on the client: `set`, `merge`, and `upsert`:
+ActiveState comes with 4 built-in mutators that you can use to mutate state on the client: `set`, `merge`, `upsert`, and `delete` (by the way, when did people start to say "mutate" instead of "update"?):
 
 #### `set(data)`
 
 ```rb
-UserChannel[some_user].store('current_user').set(current_user.as_json)
+UserChannel[some_user].state('current_user.name').set("John")
 ```
 
-This replaces the value of store with whatever is passed to the method.
+Replaces the value of `current_user.name` with `John`.
 
 #### `merge(data)`
 
 ```rb
-UserChannel[some_user].store('current_user').merge({name: 'new name'})
+UserChannel[some_user].state('current_user').merge({name: 'new name'})
 ```
 
-This deeply merges the value of the store with whatever is passed to the method. If the deep merge encounters arrays, they will be concatenated.
+Uses `Object.assign` to merge the passed object onto `current_user`.
 
 #### `upsert(data, key = "id")`
 
 ```rb
-UserChannel[some_user].store('projects').upsert([{id: 4, name: "new name"}])
+UserChannel[some_user].state('current_user.notices').upsert([{id: 4, name: "new name"}])
 ```
 
-This is basically the same as `merge`, but instead of concatenating arrays, it upserts the objects inside the array, using specified `key` (`id` by default).
+This iterates over the array in `current_user.notices`, and performs an upsert using specified key
 
-### Custom methods
+#### `delete({key: val})`
+
+If called on an array, it iterates over the array and deletes all entries who's keys match the provided object.
+
+#### `delete(key)`
+
+If called on an object, it deletes they provided key on the object
+
+### Native functions
+
+You can also call function that "natively" exist on objects in the state. For example, if you have an array in `current_user.notices`, you can call its native `push` method:
+
+```ruby
+UserChannel[some_user].state('current_user.notices').push "next chunk"
+```
+
+### Custom function
 
 You can also define custom methods to update your stores.
 
 ```js
-import { registerHandler } from 'livestores'
+import { registerHandler } from 'activestate'
 
-registerHandler('concat', function(store, data) {
-  store.update(current => `${current}${data}`)
+registerHandler('append', function(currentValue, data) {
+  return currentValue.concat(data)
 })
 
 const longString = getStore('long_string', "initial string")
 ```
 
 ```ruby
-UserChannel[some_user].store('long_string').concat "next chunk"
+UserChannel[some_user].state('long_string').append "next chunk"
 ```
-
-Note that custom methods can only take one argument.
 
 ### Send using a specific connection
 
-The `store` method is also available on a Channel instance. That means that you can update Svelte stores through a specific connection, instead of broadcasting to all subscribers:
+The `state` method is also available on a Channel instance. That means that you can update Svelte stores through a specific connection, instead of broadcasting to all subscribers:
 
 ```rb
 # user_channel.rb
 class UserChannel < ApplicationCable::Channel
   def subscribed
     stream_for current_user
-    store('current_user').set(current_user.as_json)
+    state('current_user').set(current_user.as_json)
   end
 end
 ```
 
 ### SSR
 
-When using LiveStores in an SSR context, it is very important to call `reset()` before or after rendering, to clear the stores and avoid any data leakage between requests.
+When using activestate in an SSR context, it is very important to call `reset()` before or after rendering, to clear the stores and avoid any data leakage between requests.
 
 ```js
-import { reset } from 'livestores'
+import { reset } from 'activestate'
 
 reset()
 
@@ -132,7 +143,7 @@ reset()
 
 ## TODO
 
-- [ ] Cache store data locally for offline support
+- [ ] Cache state data locally for offline support
 
 ## Installation
 
@@ -141,7 +152,7 @@ reset()
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'livestores'
+gem 'activestate'
 ```
 
 And then execute:
@@ -152,5 +163,5 @@ And then execute:
 
 Install the package:
 
-    $ npm i -D livestores
+    $ npm i -D activestate
 
