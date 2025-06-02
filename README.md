@@ -4,7 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/activestate.svg)](https://rubygems.org/gems/activestate)
 [![npm version](https://badge.fury.io/js/activestate.svg)](https://www.npmjs.com/package/activestate)
 
-ActiveState augments your ActionCable channels with methods to easily update your centralized Svelte 5 state directly from your backend.
+ActiveState explores the idea that the your entire application state can live inside one huge Svelte 5  `$state` object that can be updated in real-time by backend code. For this purpose ActiveState augments your ActionCable Channels with methods to mutate this state object in real-time via websockets.
 
 ## Example
 
@@ -99,7 +99,7 @@ UserChannel[some_user].state('current_user.notices').push "next chunk"
 
 ### Custom mutators
 
-You can also define custom methods to update your stores.
+You can also define custom methods to mutate your state.
 
 ```js
 import { registerMutator, State } from 'activestate'
