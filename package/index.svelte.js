@@ -6,6 +6,7 @@ let consumer
 
 export let State = $state({})
 
+const hooks = {}
 const mutators = {
   set(path, data) {
     set(State, path, data);
@@ -36,7 +37,7 @@ const mutators = {
   }
 }
 
-export function registerHandler(name, mutator) {
+export function registerMutator(name, mutator) {
   mutators[name] = function(path, data) {
     const currentValue = get(State, path);
     const newValue = mutator(currentValue, data);
@@ -44,7 +45,24 @@ export function registerHandler(name, mutator) {
   }
 }
 
+export function registerHook(path, hook) {
+  if (!hooks[path]) {
+    hooks[path] = [];
+  }
+  hooks[path].push(hook);
+}
+
 function received(data) {
+  Object.keys(hooks).forEach(key => {
+    const path = Array.isArray(data.path) ? data.path.join('.') : data.path;
+    if (path.startsWith(key)) {
+      for (const hook of hooks[key]) {
+        if (hook(data.path, data.action, data.data) === false) {
+          return;
+        }
+      }
+    }
+  });
   const mutator = mutators[data.action]
   if (mutator) {
     mutator(data.path, data.data);
@@ -75,4 +93,10 @@ export function subscribe(channel, params = {}) {
   return function unsubscribe() {
     consumer.subscriptions.remove(subscription);
   };
+}
+
+export function reset() {
+  Object.keys(State).forEach(key => {
+    delete State[key];
+  });
 }

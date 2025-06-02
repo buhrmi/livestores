@@ -53,9 +53,9 @@ Now you can server-side push directly into `state.messages` through the UserChan
 UserChannel[some_user].state('messages').push([{text: "Hello from Ruby"}])
 ```
 
-## Usage
+## Mutating state
 
-ActiveState comes with 4 built-in mutators that you can use to mutate state on the client: `set`, `merge`, `upsert`, and `delete` (by the way, when did people start to say "mutate" instead of "update"?):
+ActiveState comes with 4 built-in mutators to mutate state on the client: `set`, `merge`, `upsert`, and `delete` (by the way, when did people start saying "mutating" instead of "updating"?):
 
 #### `set(data)`
 
@@ -89,22 +89,22 @@ If called on an array, it iterates over the array and deletes all entries who's 
 
 If called on an object, it deletes they provided key on the object
 
-### Native functions
+### Native mutators
 
-You can also call function that "natively" exist on objects in the state. For example, if you have an array in `current_user.notices`, you can call its native `push` method:
+You can also call functions that "natively" exist on objects in the state. For example, if you have an array in `current_user.notices`, you can call its native `push` function:
 
 ```ruby
 UserChannel[some_user].state('current_user.notices').push "next chunk"
 ```
 
-### Custom function
+### Custom mutators
 
 You can also define custom methods to update your stores.
 
 ```js
-import { registerHandler } from 'activestate'
+import { registerMutator } from 'activestate'
 
-registerHandler('append', function(currentValue, data) {
+registerMutator('append', function(currentValue, data) {
   return currentValue.concat(data)
 })
 
@@ -113,6 +113,19 @@ const longString = getStore('long_string', "initial string")
 
 ```ruby
 UserChannel[some_user].state('long_string').append "next chunk"
+```
+
+### Hooks
+
+You can intercept the mutation of the State by setting hooks on path prefixes. These allow you to
+stop mutators from running (by returning false), or otherwise use the data.
+
+```js
+import { registerHook } from 'activestate'
+
+registerHook('current_user.messages', function(path, action, data) {
+  if (data.text.includes("sensitive")) return false
+})
 ```
 
 ### Send using a specific connection
@@ -131,7 +144,7 @@ end
 
 ### SSR
 
-When using activestate in an SSR context, it is very important to call `reset()` before or after rendering, to clear the stores and avoid any data leakage between requests.
+When using ActiveState in an SSR context, the server-side javascript process is usually shared between requests. Therefore it is of importance to call `reset()` before or after rendering, to clear the state and avoid any data leakage between requests.
 
 ```js
 import { reset } from 'activestate'
@@ -140,10 +153,6 @@ reset()
 
 // ... rest of code comes here
 ```
-
-## TODO
-
-- [ ] Cache state data locally for offline support
 
 ## Installation
 
