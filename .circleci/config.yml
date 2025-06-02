@@ -5,7 +5,7 @@ jobs:
   build:
     working_directory: ~/livestore/dummy
     docker:
-      - image: cimg/ruby:3.1.2-browsers
+      - image: cimg/ruby:3.4.4-browsers
         environment:
           RAILS_ENV: test
 
