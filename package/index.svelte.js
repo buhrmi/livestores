@@ -19,7 +19,7 @@ const mutators = {
   set(path, data) {
     set(State, path, data);
   },
-  merge(path, data) {
+  assign(path, data) {
     const result = queryState(path);
     result.forEach(obj => {
       Object.assign(obj, data);

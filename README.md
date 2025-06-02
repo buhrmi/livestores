@@ -56,13 +56,13 @@ UserChannel[some_user].state('messages').push({text: "Hello from Ruby", id: 12})
 Or, update the text of a specific message:
 
 ```rb
-UserChannel[some_user].state('messages[?(@.id==12)]').merge({text: "Other text"})
+UserChannel[some_user].state('messages[?(@.id==12)]').assign({text: "Other text"})
 ```
 
 
 ## Mutating state
 
-ActiveState comes with 4 built-in mutators to mutate state on the client: `set`, `merge`, `upsert`, and `delete` (by the way, when did people start saying "mutating" instead of "updating"?):
+ActiveState comes with 4 built-in mutators to mutate state on the client: `set`, `assign`, `upsert`, and `delete` (by the way, when did people start saying "mutating" instead of "updating"?):
 
 #### `set(data)`
 
@@ -72,13 +72,13 @@ UserChannel[some_user].state('current_user.name').set("John")
 
 Replaces the value of `current_user.name` with `John`. The `set` mutator does not accept JSONPath. It uses simple dot-notation.
 
-#### `merge(data)`
+#### `assign(data)`
 
 ```rb
-UserChannel[some_user].state('current_user').merge({name: 'new name'})
+UserChannel[some_user].state('current_user').assign({name: 'new name'})
 ```
 
-Uses `Object.assign` to merge the passed object onto `current_user`.
+Uses `Object.assign` to assign the passed object onto `current_user`.
 
 #### `upsert(data, key = "id")`
 
