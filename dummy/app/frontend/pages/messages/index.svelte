@@ -5,7 +5,8 @@
   State.deeply = {nested: {value: 'foundme'}}
   State.messages = [
     { id: 1, message: 'Hello World' },
-    { id: 2, message: 'Goodbye World' }
+    { id: 2, message: 'Goodbye World' },
+    { id: 3, message: 'Hello Again' }
   ]
   State.longString ||= "123456"
   State.val = {deleteme: "deleteme"}
@@ -32,8 +33,8 @@
     axios.post('/messages', { message: 'Hello World' })
   }
 
-registerMutator('append', function(old, val) {
-  return old.concat(val)
+registerMutator('append', function(target, data) {
+  return target[data.key] += data.value
 })
   
 // registerHandler('keepLarger', function(store, data) {
@@ -54,7 +55,7 @@ Deeply nested value: {State.deeply.nested.value}
 <h2>Messages</h2>
 
 {#each messages as message}
-  {message}
+  {message.message}
 {/each}
 
 <h2>Long String</h2>

@@ -5,11 +5,12 @@ class MessagesController < ApplicationController
   end
 
   def create
-    UserChannel[@user].state('user').set({id: @user.id, name: "new name"})
-    UserChannel[@user].state('messages').push([params[:message]])
+    UserChannel[@user].state('user').merge({id: @user.id, name: "new name"})
+    UserChannel[@user].state('$').append(key: "longString", value: " appended")
+    UserChannel[@user].state('messages').push(message:params[:message])
+    UserChannel[@user].state('messages[?(@.id==3)]').merge(message: "Hello AGAIN!")
     UserChannel[@user].state('records').upsert([{id: 1, name: "new1"}, {id: 2, name: "new2"}])
     UserChannel[@user].state('deeply.nested').set({value: "gotcha"})
-    UserChannel[@user].state('longString').append(" appended")
     UserChannel[@user].state('val').delete "deleteme"
     UserChannel[@user].state('delete.array').delete name: 'deleteMe'
   end

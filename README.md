@@ -4,7 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/activestate.svg)](https://rubygems.org/gems/activestate)
 [![npm version](https://badge.fury.io/js/activestate.svg)](https://www.npmjs.com/package/activestate)
 
-ActiveState explores the idea that your entire application state can live inside one huge Svelte 5  `$state` object that can be updated by backend code. For this purpose ActiveState augments your ActionCable Channels with methods to mutate this state object in real-time via websockets.
+ActiveState explores the idea that your entire application state can live inside one huge Svelte 5  `$state` object that can be updated by backend code via [JSONPath](https://en.wikipedia.org/wiki/JSONPath). For this purpose ActiveState augments your ActionCable Channels with methods to mutate this state object in real-time via websockets.
 
 ## Example
 
@@ -46,12 +46,19 @@ const messages = $derived(State.messages)
 {/each}
 ```
 
-Now you can server-side push directly into `state.messages` through the UserChannel:
+Now you can server-side push directly into `state.messages` through the UserChannel (the `$.` can be ommitted):
 
 ```rb
 # Somewhere in your Ruby code:
-UserChannel[some_user].state('messages').push([{text: "Hello from Ruby"}])
+UserChannel[some_user].state('messages').push({text: "Hello from Ruby", id: 12})
 ```
+
+Or, update the text of a specific message:
+
+```rb
+UserChannel[some_user].state('messages[?(@.id==12)]').merge({text: "Other text"})
+```
+
 
 ## Mutating state
 
@@ -63,7 +70,7 @@ ActiveState comes with 4 built-in mutators to mutate state on the client: `set`,
 UserChannel[some_user].state('current_user.name').set("John")
 ```
 
-Replaces the value of `current_user.name` with `John`.
+Replaces the value of `current_user.name` with `John`. The `set` mutator does not accept JSONPath. It uses simple dot-notation.
 
 #### `merge(data)`
 
@@ -101,12 +108,14 @@ UserChannel[some_user].state('current_user.notices').push "next chunk"
 
 You can also define custom methods to mutate your state.
 
-```js
+```svelte
+<script>
 import { registerMutator, State } from 'activestate'
 
-registerMutator('append', function(currentValue, data) {
-  return currentValue.concat(data)
+registerMutator('append', function(target, data) {
+  target[data.key] += data.value
 })
+</script>
 
 <p>
 Here is a very long string: {State.long_string}
@@ -114,7 +123,7 @@ Here is a very long string: {State.long_string}
 ```
 
 ```ruby
-UserChannel[some_user].state('long_string').append "next chunk"
+UserChannel[some_user].state('$').append(key: "long_string", value: "i am being appended")
 ```
 
 ### Hooks
