@@ -102,13 +102,15 @@ UserChannel[some_user].state('current_user.notices').push "next chunk"
 You can also define custom methods to update your stores.
 
 ```js
-import { registerMutator } from 'activestate'
+import { registerMutator, State } from 'activestate'
 
 registerMutator('append', function(currentValue, data) {
   return currentValue.concat(data)
 })
 
-const longString = getStore('long_string', "initial string")
+<p>
+Here is a very long string: {State.long_string}
+</p>
 ```
 
 ```ruby
@@ -153,6 +155,10 @@ reset()
 
 // ... rest of code comes here
 ```
+
+### Is it smart to place all state into a global state object?
+
+I think so: Svelte 5 introduced fine-grained reactivity on `$state` objects. That means, that even if you have one ginormous state object, Svelte only re-evaluates code branches that depend on the parts that actually changed.
 
 ## Installation
 
