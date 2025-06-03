@@ -1,6 +1,5 @@
 import { createConsumer } from "@rails/actioncable";
-import get from 'get-value';
-import set from 'set-value';
+import {get,set} from '@eivifj/dot';
 
 let consumer
 

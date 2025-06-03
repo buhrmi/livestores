@@ -67,6 +67,10 @@ Deeply nested value: {State.deeply.nested.value}
 <p>
   {JSON.stringify(State.delete.array)}
 </p>
+
+<p>
+  {State.numberkeys?.[23].person.name}
+</p>
 <!--
 
 <h2>
