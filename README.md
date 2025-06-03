@@ -5,7 +5,7 @@
 [![Gem Version](https://badge.fury.io/rb/activestate.svg)](https://rubygems.org/gems/activestate)
 [![npm version](https://badge.fury.io/js/activestate.svg)](https://www.npmjs.com/package/activestate)
 
-### Update Svelte state from the backend via JSONPath
+### Update Svelte state from your Rails backend in real-time via JSONPath
 
 ActiveState explores the idea of having your entire application state inside one giant Svelte 5  `$state` object that can be updated from the backend. For this purpose, ActiveState augments your ActionCable Channels with methods to mutate this giant state object in real-time via [JSONPath](https://en.wikipedia.org/wiki/JSONPath). This works because after querying your giant JSON object using JSONPath, Svelte 5's reactivity is still in-tact on the result nodes, which the mutations are being applied to.
 
