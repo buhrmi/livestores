@@ -128,19 +128,6 @@ Here is a very long string: {State.long_string}
 UserChannel[some_user].state('long_string').append "next chunk"
 ```
 
-### Hooks
-
-You can intercept the mutation of the State by setting hooks on path prefixes. These allow you to
-stop mutators from running (by returning false), or otherwise use the data.
-
-```js
-import { registerHook } from 'activestate'
-
-registerHook('current_user.messages', function(path, action, data) {
-  if (data.text.includes("sensitive")) return false
-})
-```
-
 ### Send using a specific connection
 
 The `state` method is also available on a Channel instance. That means that you can update Svelte stores through a specific connection, instead of broadcasting to all subscribers:

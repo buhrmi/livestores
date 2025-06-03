@@ -5,7 +5,6 @@ let consumer
 
 export let State = $state({})
 
-const hooks = {}
 const mutators = {
   set(path, data) {
     set(State, path, data);
@@ -46,12 +45,6 @@ export function registerMutator(name, mutator) {
   }
 }
 
-export function registerHook(path, hook) {
-  if (!hooks[path]) {
-    hooks[path] = [];
-  }
-  hooks[path].push(hook);
-}
 
 function received(data) {
   const path = Array.isArray(data.path) ? data.path.join('.') : data.path;
