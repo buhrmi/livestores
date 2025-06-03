@@ -11,7 +11,9 @@ const mutators = {
     set(State, path, data);
   },
   assign(path, data) {
-    set(State, path, data, {merge: true});
+    const currentValue = get(State, path);
+    if (currentValue) Object.assign(currentValue, data);
+    else set(State, path, data);
   },
   upsert(path, data) {
     const updates = Array.isArray(data.value) ? data.value : [data.value];
@@ -52,8 +54,8 @@ export function registerHook(path, hook) {
 }
 
 function received(data) {
+  const path = Array.isArray(data.path) ? data.path.join('.') : data.path;
   Object.keys(hooks).forEach(key => {
-    const path = Array.isArray(data.path) ? data.path.join('.') : data.path;
     if (path.startsWith(key)) {
       for (const hook of hooks[key]) {
         if (hook(data.path, data.action, data.data) === false) {
@@ -64,15 +66,15 @@ function received(data) {
   });
   const mutator = mutators[data.action]
   if (mutator) {
-    mutator(data.path, data.data);
+    mutator(path, data.data);
   } 
   else {
-    const target = get(State, data.path);
+    const target = get(State, path);
     if (target && typeof target[data.action] === 'function') {
       target[data.action](data.data);
     }
     else {
-      console.error(`No mutator or method found for action "${data.action}" on path "${data.path}"`);
+      console.error(`No mutator or method found for action "${data.action}" on path "${path}"`);
     }
   }
 }

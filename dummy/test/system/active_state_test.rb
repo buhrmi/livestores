@@ -1,6 +1,6 @@
 require "application_system_test_case"
 
-class LivestoreTest < ApplicationSystemTestCase
+class ActiveStateTest < ApplicationSystemTestCase
 
   test 'subscribing, updating, appending' do
     visit '/messages'
