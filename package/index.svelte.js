@@ -1,18 +1,10 @@
 import { createConsumer } from "@rails/actioncable";
+import get from 'get-value';
 import set from 'set-value';
-import { query } from 'jsonpathly'
 
 let consumer
 
 export let State = $state({})
-
-function queryState(path) {
-  if (!path.startsWith('$')) path = `$.${path}`;
-  const arrayResult = path.includes('[?')
-  let result = query(State, path);
-  if (!arrayResult) result = [result]
-  return result;
-}
 
 const hooks = {}
 const mutators = {
@@ -20,43 +12,36 @@ const mutators = {
     set(State, path, data);
   },
   assign(path, data) {
-    const result = queryState(path);
-    result.forEach(obj => {
-      Object.assign(obj, data);
-    })
+    set(State, path, data, {merge: true});
   },
   upsert(path, data) {
     const updates = Array.isArray(data.value) ? data.value : [data.value];
-    const targets = queryState(path);
-    targets.forEach(target => {
-      updates.forEach(entry => {
-        const item = target.find(item => item[data.key] === entry[data.key]);
-        if (item) Object.assign(item, entry);
-        else target.push(entry);
-      })
+    const target = get(State, path);
+    if (!target) set(State, path, updates);
+    else updates.forEach(entry => {
+      const item = target.find(item => item[data.key] === entry[data.key]);
+      if (item) Object.assign(item, entry);
+      else target.push(entry);
     })
   },
   delete(path, selector) {
-    const targets = queryState(path);
-    targets.forEach(target => {
-      if (Array.isArray(target)) {
-        const [key, value] = Object.entries(selector)[0];
-        const index = target.findIndex(item => item[key] === value);
-        if (index !== -1) target.splice(index, 1);
-      }
-      else {
-        delete target[selector];
-      }
-    })
+    const target = get(State, path);
+    if (Array.isArray(target)) {
+      const [key, value] = Object.entries(selector)[0];
+      const index = target.findIndex(item => item[key] === value);
+      if (index !== -1) target.splice(index, 1);
+    }
+    else {
+      delete target[selector];
+    }
   }
 }
 
 export function registerMutator(name, mutator) {
   mutators[name] = function(path, data) {
-    const values = queryState(path);
-    values.forEach(value => {
-      mutator(value, data);
-    })
+    const currentValue = get(State, path);
+    const newValue = mutator(currentValue, data);
+    set(State, path, newValue);
   }
 }
 
@@ -83,15 +68,13 @@ function received(data) {
     mutator(data.path, data.data);
   } 
   else {
-    const targets = queryState(data.path);
-    targets.forEach(target => {  
-      if (target && typeof target[data.action] === 'function') {
-        target[data.action](data.data);
-      }
-      else {
-        console.error(`No mutator or method found for action "${data.action}" on path "${data.path}"`);
-      }
-    })
+    const target = get(State, data.path);
+    if (target && typeof target[data.action] === 'function') {
+      target[data.action](data.data);
+    }
+    else {
+      console.error(`No mutator or method found for action "${data.action}" on path "${data.path}"`);
+    }
   }
 }
 

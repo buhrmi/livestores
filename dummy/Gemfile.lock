@@ -1,7 +1,7 @@
 PATH
   remote: ../gem
   specs:
-    activestate (1.2.0)
+    activestate (2.0.0)
       rails (>= 7.0.4)
 
 GEM

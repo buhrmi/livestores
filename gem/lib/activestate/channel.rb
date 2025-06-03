@@ -20,8 +20,8 @@ module ApplicationCable
       transmit :set, value
     end
 
-    def merge value
-      transmit :merge, value
+    def assign value
+      transmit :assign, value
     end
 
     def upsert value, key = 'id'

@@ -1,13 +1,14 @@
 # ActiveState
 
-
 [![CircleCI](https://circleci.com/gh/buhrmi/activestate.svg?style=shield)](https://circleci.com/gh/buhrmi/activestate)
 [![Gem Version](https://badge.fury.io/rb/activestate.svg)](https://rubygems.org/gems/activestate)
 [![npm version](https://badge.fury.io/js/activestate.svg)](https://www.npmjs.com/package/activestate)
 
-### Update Svelte state from your Rails backend in real-time via JSONPath
+### Update Svelte state from your Rails backend in real-time
 
-ActiveState explores the idea of having your entire application state inside one giant Svelte 5  `$state` object that can be updated from the backend. For this purpose, ActiveState augments your ActionCable Channels with methods to mutate this giant state object in real-time via [JSONPath](https://en.wikipedia.org/wiki/JSONPath). This works because after querying your giant JSON object using JSONPath, Svelte 5's reactivity is still in-tact on the result nodes, which the mutations are being applied to.
+ActiveState explores the idea of having your entire application state inside one giant Svelte 5  `$state` object that can be updated from the backend. For this purpose, ActiveState augments your ActionCable Channels with methods to mutate this giant state object in real-time.
+
+> Note: A previous version of ActiveState used JSONPath to query through the state. This was too complex. From Version 2, ActiveState uses simple dot-notation. To access a record by id, make sure to index it by id in your state object, eg: `state("projects.2324.completed").set(true)`.
 
 ## Example
 
@@ -49,17 +50,17 @@ const messages = $derived(State.messages)
 {/each}
 ```
 
-Now you can server-side push directly into `state.messages` through the UserChannel (the `$.` can be ommitted):
+Now you can server-side push directly into `state.messages` through the UserChannel:
 
 ```rb
 # Somewhere in your Ruby code:
-UserChannel[some_user].state('messages').push({text: "Hello from Ruby", id: 12})
+UserChannel[some_user].state('messages').push({id: 4, text: "Hello from Ruby"})
 ```
 
-Or, update the text of a specific message:
+And update the message:
 
 ```rb
-UserChannel[some_user].state('messages[?(@.id==12)]').assign({text: "Other text"})
+UserChannel[some_user].state('messages').upsert({id: 4, text: "Changed text"})
 ```
 
 
@@ -73,15 +74,15 @@ ActiveState comes with 4 built-in mutators to mutate state on the client: `set`,
 UserChannel[some_user].state('current_user.name').set("John")
 ```
 
-Replaces the value of `current_user.name` with `John`. The `set` mutator does not accept JSONPath. It uses simple dot-notation.
+Replaces the value of `current_user.name` with `John`.
 
-#### `assign(data)`
+#### `merge(data)`
 
 ```rb
 UserChannel[some_user].state('current_user').assign({name: 'new name'})
 ```
 
-Uses `Object.assign` to assign the passed object onto `current_user`.
+Uses `Object.assign` to merge the passed object onto `current_user`.
 
 #### `upsert(data, key = "id")`
 
@@ -111,14 +112,12 @@ UserChannel[some_user].state('current_user.notices').push "next chunk"
 
 You can also define custom methods to mutate your state.
 
-```svelte
-<script>
+```js
 import { registerMutator, State } from 'activestate'
 
-registerMutator('append', function(target, data) {
-  target[data.key] += data.value
+registerMutator('append', function(currentValue, data) {
+  return currentValue.concat(data)
 })
-</script>
 
 <p>
 Here is a very long string: {State.long_string}
@@ -126,7 +125,7 @@ Here is a very long string: {State.long_string}
 ```
 
 ```ruby
-UserChannel[some_user].state('$').append(key: "long_string", value: "i am being appended")
+UserChannel[some_user].state('long_string').append "next chunk"
 ```
 
 ### Hooks
@@ -168,11 +167,9 @@ reset()
 // ... rest of code comes here
 ```
 
-## FAQ
+### Is it smart to place all state into a global state object?
 
-### Is it smart to put all application state into a single global state object?
-
-Not sure. Svelte 5 introduced fine-grained reactivity on `$state` objects. That means, that even if you have one ginormous state object, Svelte only re-evaluates code branches that depend on the parts that actually changed. So it's worth a try to do things this way.
+I think so: Svelte 5 introduced fine-grained reactivity on `$state` objects. That means, that even if you have one ginormous state object, Svelte only re-evaluates code branches that depend on the parts that actually changed.
 
 ## Installation
 

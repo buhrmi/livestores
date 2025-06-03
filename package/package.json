@@ -1,6 +1,6 @@
 {
   "name": "activestate",
-  "version": "1.3.1",
+  "version": "2.0.0",
   "description": "Push data from your Rails backend directly into Svelte 5 state",
   "main": "index.js",
   "scripts": {
@@ -22,9 +22,11 @@
     "url": "https://github.com/buhrmi/activestate/issues"
   },
   "homepage": "https://github.com/buhrmi/activestate#readme",
+  "devDependencies": {
+  },
   "dependencies": {
     "@rails/actioncable": "^7.2.201",
-    "jsonpathly": "^2.0.3",
+    "get-value": "^4.0.1",
     "set-value": "^4.1.0"
   }
 }
