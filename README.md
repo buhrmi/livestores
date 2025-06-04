@@ -154,9 +154,11 @@ reset()
 // ... rest of code comes here
 ```
 
+## FAQ
+
 ### Is it smart to place all state into a global state object?
 
-I think so: Svelte 5 introduced fine-grained reactivity on `$state` objects. That means, that even if you have one ginormous state object, Svelte only re-evaluates code branches that depend on the parts that actually changed.
+Not sure. Svelte 5 introduced fine-grained reactivity inside for objects declared with `$state`. That means that even if your object becomes huge with deeply nested data, it should not have any impact on performance. So its worth trying to do things this way.
 
 ## Installation
 
