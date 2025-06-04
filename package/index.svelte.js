@@ -48,15 +48,6 @@ export function registerMutator(name, mutator) {
 
 function received(data) {
   const path = Array.isArray(data.path) ? data.path.join('.') : data.path;
-  Object.keys(hooks).forEach(key => {
-    if (path.startsWith(key)) {
-      for (const hook of hooks[key]) {
-        if (hook(data.path, data.action, data.data) === false) {
-          return;
-        }
-      }
-    }
-  });
   const mutator = mutators[data.action]
   if (mutator) {
     mutator(path, data.data);
