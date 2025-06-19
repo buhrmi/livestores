@@ -6,7 +6,24 @@
 
 ActiveState allows you to update your Svelte application state easily and in real-time from your Rails backend. Its a combination of npm package and ruby gem, that gives you an application-wide Svelte 5 `$state` object, and methods to manipulate this state object using dot-notation.
 
-## Example
+## In a nutshell
+
+With ActiveState you have an application-wide state object like this:
+
+```svelte
+<script>
+import { State } from 'activestate'
+console.log(State.projects.321.name)
+</script>
+```
+
+and you can update it in real-time from your Rails backend like this:
+
+```rb
+ProjectChannel[project].state("projects", project.id, "name").set("My awesome project")
+```
+
+## Detailed example
 
 Let's assume you have a web app and would like to display real-time messages to a specific user. This can be easily done with ActiveState by pushing new messages to a centralized state object as they happen. Let's have a look:
 
@@ -46,7 +63,7 @@ const messages = $derived(State.messages)
 {/each}
 ```
 
-Now you can server-side push directly into `state.messages` through the UserChannel:
+Now you can server-side push directly into `State.messages` through the UserChannel:
 
 ```rb
 # Somewhere in your Ruby code:
@@ -62,7 +79,9 @@ UserChannel[some_user].state('messages').upsert({id: 4, text: "Changed text"})
 
 ## Mutating state
 
-ActiveState comes with 4 built-in mutators to mutate state on the client: `set`, `assign`, `upsert`, and `delete` (by the way, when did people start saying "mutating" instead of "updating"?):
+All state mutations operate on a path. This path can be either specified via dot-notation (eg `projects.421.name`), or as an array (eg. `["projects", project.id, "name"]`).
+
+ActiveState comes with 4 built-in mutators: `set`, `assign`, `upsert`, and `delete` (by the way, when did people start to say "mutating"):
 
 #### `set(data)`
 
