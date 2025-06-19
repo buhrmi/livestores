@@ -13,8 +13,9 @@ With ActiveState you have an application-wide state object like this:
 ```svelte
 <script>
 import { State } from 'activestate'
-console.log(State.projects[321].name)
 </script>
+
+<h1>{State.projects[projectId].name}</h1>
 ```
 
 and you can update it in real-time from your Rails backend like this:
