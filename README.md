@@ -20,7 +20,7 @@ console.log(State.projects[321].name)
 and you can update it in real-time from your Rails backend like this:
 
 ```rb
-ProjectChannel[project].state("projects", project.id, "name").set("My awesome project")
+UserChannel[current_user].state("projects", project.id, "name").set("My awesome project")
 ```
 
 ## Detailed example
