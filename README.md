@@ -4,11 +4,7 @@
 [![Gem Version](https://badge.fury.io/rb/activestate.svg)](https://rubygems.org/gems/activestate)
 [![npm version](https://badge.fury.io/js/activestate.svg)](https://www.npmjs.com/package/activestate)
 
-### Update Svelte state from your Rails backend in real-time
-
-ActiveState explores the idea of having your entire application state inside one giant Svelte 5  `$state` object that can be updated from the backend. For this purpose, ActiveState augments your ActionCable Channels with methods to mutate this giant state object in real-time.
-
-> Note: A previous version of ActiveState used JSONPath to query through the state. This was too complex. From Version 2, ActiveState uses simple dot-notation. To access a record by id, make sure to index it by id in your state object, eg: `state("projects.2324.completed").set(true)`.
+ActiveState allows you to update your Svelte application state easily and in real-time from your Rails backend. Its a combination of npm package and ruby gem, that gives you an application-wide Svelte 5 `$state` object, and methods to manipulate this state object using dot-notation.
 
 ## Example
 
